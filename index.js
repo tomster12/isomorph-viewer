@@ -100,7 +100,6 @@ function setIsomorphLetters(index, start, length, toggle, pattern = "") {
 function selectIsomorph(pattern) {
     if (selectedPattern != null) {
         isomorphDisplays[selectedPattern].element.classList.remove("selected");
-
         for (let instance of ISOMORPH_DATA[selectedPattern]) {
             setIsomorphLetters(instance[0], instance[1], selectedPattern.length, false);
         }
@@ -115,13 +114,11 @@ function selectIsomorph(pattern) {
 
     if (selectedPattern != null) {
         isomorphDisplays[selectedPattern].element.classList.add("selected");
-
         let leftmostIndex = Infinity;
         let leftmostIndexMessage = null;
         for (let instance of ISOMORPH_DATA[selectedPattern]) {
-            if (!messageDisplays[instance[0]].visible) continue;
             setIsomorphLetters(instance[0], instance[1], selectedPattern.length, true, pattern);
-            if (instance[1] < leftmostIndex) {
+            if (messageDisplays[instance[0]].visible && instance[1] < leftmostIndex) {
                 leftmostIndex = instance[1];
                 leftmostIndexMessage = instance[0];
             }
