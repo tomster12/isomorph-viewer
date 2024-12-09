@@ -13,7 +13,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: "Cousine", monospace;
-    font-size: 20px;
+    font-size: 22px;
     --message-gap: 0.3rem;
     --message-letter-size: 1.5rem;
     --message-letter-height: 1.65rem;
@@ -33,12 +33,43 @@ hr {
 /* ------------------------------------------- */
 
 #messages-outer-container,
+#user-input-container,
 #isomorph-container {
     background-color: #3b4858;
     border-radius: var(--standard-border-radius);
 }
 
 /* ------------------------------------------- */
+
+#messages-selector-container {
+    display: flex;
+    flex-direction: row;
+    gap: var(--message-gap);
+    margin-bottom: 1rem;
+    background-color: #3b4858;
+    border-radius: var(--standard-border-radius);
+    padding: calc(var(--message-gap) * 1.5);
+    width: fit-content;
+}
+
+#messages-selector-container div {
+    width: var(--message-letter-size);
+    height: var(--message-letter-size);
+    line-height: var(--message-letter-height);
+    border-radius: var(--standard-border-radius);
+    text-align: center;
+    background-color: #585d63;
+    cursor: pointer;
+    user-select: none;
+}
+
+#messages-selector-container div.selected {
+    background-color: #b6c0cd;
+}
+
+#messages-selector-container div:hover {
+    background-color: #dde4ee;
+}
 
 #messages-outer-container {
     position: relative;
@@ -56,9 +87,9 @@ hr {
 }
 
 #messages-row-indices {
+    margin-top: var(--message-letter-size);
     position: sticky;
     left: 0;
-    margin-top: var(--message-letter-size);
     display: flex;
     flex-direction: column;
     gap: var(--message-gap);
@@ -164,18 +195,18 @@ hr {
     color: white;
 }
 
-.isomorph:hover {
-    background-color: #4b5564;
-}
-
-.isomorph:hover .pattern {
-    background-color: #9aa4b1;
-}
-
 .isomorph.selected {
     background-color: #576171;
 }
 
 .isomorph.selected .pattern {
     background-color: #a7b1bd;
+}
+
+.isomorph:hover {
+    background-color: #6c7787;
+}
+
+.isomorph:hover .pattern {
+    background-color: #c3cbd4;
 }
