@@ -1,85 +1,81 @@
 const MESSAGE_VIEW = document.getElementById("message-view");
 const ISOMORPH_VIEW = document.getElementById("isomorph-view");
 
-let messageInstances = [];
-let isomorphsInstances = {};
-let selectedIsomorph = null;
+let messageDisplays = [];
+let isomorphDisplays = {};
+let selectedPattern = null;
 
 for (let i = 0; i < EYE_MESSAGES.length; i++) {
-    let messageInstance = {};
-    messageInstance.letters = [];
-    messageInstance.index = i;
+    let messageDisplay = {};
+    messageDisplay.letters = [];
+    messageDisplay.index = i;
 
-    messageInstance.element = document.createElement("div");
-    messageInstance.element.classList.add("message");
+    messageDisplay.element = document.createElement("div");
+    messageDisplay.element.classList.add("message");
 
     for (let j = 0; j < EYE_MESSAGES[i].length; j++) {
         let letter = document.createElement("div");
         letter.textContent = EYE_MESSAGES[i][j].toString();
-        messageInstance.element.appendChild(letter);
-        messageInstance.letters.push(letter);
+        messageDisplay.element.appendChild(letter);
+        messageDisplay.letters.push(letter);
     }
 
-    MESSAGE_VIEW.appendChild(messageInstance.element);
-    messageInstances.push(messageInstance);
+    MESSAGE_VIEW.appendChild(messageDisplay.element);
+    messageDisplays.push(messageDisplay);
 }
 
 function setIsomorphLetters(index, start, length, toggle, pattern = "") {
     for (let i = 0; i < length; i++) {
         if (!toggle) {
-            messageInstances[index].letters[start + i].className = "";
+            messageDisplays[index].letters[start + i].className = "";
             continue;
         }
 
         let letter = pattern[i] == "." ? "blank" : pattern[i];
-        messageInstances[index].letters[start + i].className = "letter-" + letter;
+        messageDisplays[index].letters[start + i].className = "letter-" + letter;
     }
 }
 
-function selectIsomorph(key) {
-    if (selectedIsomorph != null) {
-        selectedIsomorph.element.classList.remove("selected");
-        const isomorphData = ISOMORPH_DATA[selectedIsomorph.key];
-        const length = selectedIsomorph.key.length;
-
-        for (let i = 0; i < isomorphData.length; i++) {
-            setIsomorphLetters(isomorphData[i][0], isomorphData[i][1], length, false);
+function selectIsomorph(pattern) {
+    if (selectedPattern != null) {
+        isomorphDisplays[selectedPattern].element.classList.remove("selected");
+        for (let instance of ISOMORPH_DATA[selectedPattern]) {
+            setIsomorphLetters(instance[0], instance[1], selectedPattern.length, false);
         }
     }
 
-    selectedIsomorph = isomorphsInstances[key];
+    selectedPattern = pattern;
 
-    if (selectedIsomorph != null) {
-        selectedIsomorph.element.classList.add("selected");
-        const isomorphData = ISOMORPH_DATA[selectedIsomorph.key];
-        const length = selectedIsomorph.key.length;
-
-        for (let i = 0; i < isomorphData.length; i++) {
-            setIsomorphLetters(isomorphData[i][0], isomorphData[i][1], length, true, key);
+    if (selectedPattern != null) {
+        isomorphDisplays[selectedPattern].element.classList.add("selected");
+        for (let instance of ISOMORPH_DATA[selectedPattern]) {
+            setIsomorphLetters(instance[0], instance[1], selectedPattern.length, true, pattern);
         }
+
+        const letterElement = messageDisplays[ISOMORPH_DATA[selectedPattern][0][0]].letters[ISOMORPH_DATA[selectedPattern][0][1]];
+        MESSAGE_VIEW.scrollLeft = letterElement.offsetLeft - 100;
     }
 }
 
-for (const key in ISOMORPH_DATA) {
-    const isomorphData = ISOMORPH_DATA[key];
-    let isomorphInstance = {};
-    isomorphInstance.key = key;
+for (const pattern in ISOMORPH_DATA) {
+    const isomorphData = ISOMORPH_DATA[pattern];
+    let isomorphDisplay = {};
 
-    isomorphInstance.element = document.createElement("div");
-    isomorphInstance.element.classList.add("isomorph");
+    isomorphDisplay.element = document.createElement("div");
+    isomorphDisplay.element.classList.add("isomorph");
 
-    let patternElement = document.createElement("div");
-    patternElement.classList.add("pattern");
-    patternElement.textContent = key;
-    isomorphInstance.element.appendChild(patternElement);
+    isomorphDisplay.patternElement = document.createElement("div");
+    isomorphDisplay.patternElement.classList.add("pattern");
+    isomorphDisplay.patternElement.textContent = pattern;
 
-    let labelElement = document.createElement("div");
-    labelElement.classList.add("label");
-    labelElement.textContent = "x" + isomorphData.length.toString();
-    isomorphInstance.element.appendChild(labelElement);
+    isomorphDisplay.labelElement = document.createElement("div");
+    isomorphDisplay.labelElement.classList.add("label");
+    isomorphDisplay.labelElement.textContent = "x" + isomorphData.length.toString();
 
-    isomorphInstance.element.onclick = () => selectIsomorph(key);
+    isomorphDisplay.element.appendChild(isomorphDisplay.patternElement);
+    isomorphDisplay.element.appendChild(isomorphDisplay.labelElement);
+    isomorphDisplay.element.onclick = () => selectIsomorph(pattern);
 
-    ISOMORPH_VIEW.appendChild(isomorphInstance.element);
-    isomorphsInstances[key] = isomorphInstance;
+    ISOMORPH_VIEW.appendChild(isomorphDisplay.element);
+    isomorphDisplays[pattern] = isomorphDisplay;
 }
