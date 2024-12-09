@@ -25,9 +25,8 @@ def pattern_from_sequence(sequence):
 def find_isomorphs(messages, max_length=30):
     """
     Extracts all patterns from messages, regardless of how many times they occur. You can filter this as needed afterward.
-    :param messages: List of lists of symbols (which can be strings or numbers).
+    :param messages: List of lists of symbols.
     :param max_length: Longest isomorph pattern to search for, default 30.
-    :param include_subpatterns: Whether to add all subpatterns for patterns that match, even if those subpatterns don't occur outside the larger patterns. This makes it run way more slowly.
     :returns: Dictionary where the keys are pattern strings (like A.B.CB.AC) and values are lists of (message index, position) tuples.
     """
     isomorphs = {}
