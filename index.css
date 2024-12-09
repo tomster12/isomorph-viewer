@@ -142,7 +142,7 @@ hr {
 }
 
 .message div.letter-B {
-    background-color: #b9ee6a;
+    background-color: #c4ee6a;
     color: #323233;
 }
 
@@ -158,6 +158,11 @@ hr {
 
 .message div.letter-E {
     background-color: #5cdd53;
+    color: #323233;
+}
+
+.message div.letter-F {
+    background-color: #4781ff;
     color: #323233;
 }
 
