@@ -22,12 +22,10 @@
 
 body {
     background-color: #2d3744;
-    margin: 1rem;
-}
-
-hr {
-    margin: 1rem 0;
-    color: #2d3744;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 /* ------------------------------------------- */
@@ -41,11 +39,18 @@ hr {
 
 /* ------------------------------------------- */
 
+#top-bar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    padding: 0 1rem;
+}
+
 #messages-selector-container {
     display: flex;
     flex-direction: row;
     gap: var(--message-gap);
-    margin-bottom: 1rem;
     background-color: #3b4858;
     border-radius: var(--standard-border-radius);
     padding: calc(var(--message-gap) * 1.5);
@@ -70,6 +75,32 @@ hr {
 #messages-selector-container div:hover {
     background-color: #dde4ee;
 }
+
+#toggle-ascii-button {
+    flex-shrink: 0;
+    width: calc(var(--message-letter-size) + var(--message-gap));
+    height: calc(var(--message-letter-size) + var(--message-gap));
+    border-radius: var(--standard-border-radius);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #9ea9b7;
+    cursor: pointer;
+}
+
+#toggle-ascii-button img {
+    width: 70%;
+    height: 70%;
+}
+#toggle-ascii-button.toggled {
+    background-color: #d9e0ea;
+}
+
+#toggle-ascii-button:hover {
+    background-color: #f3f7fc;
+}
+
+/* ------------------------------------------- */
 
 #messages-outer-container {
     position: relative;
@@ -131,41 +162,6 @@ hr {
     color: #384451;
 }
 
-.message div.letter-blank {
-    background-color: #5c697d;
-    color: #3e3e40;
-}
-
-.message div.letter-A {
-    background-color: #d36862;
-    color: #323233;
-}
-
-.message div.letter-B {
-    background-color: #c4ee6a;
-    color: #323233;
-}
-
-.message div.letter-C {
-    background-color: #5ddbe2;
-    color: #323233;
-}
-
-.message div.letter-D {
-    background-color: #e076c7;
-    color: #323233;
-}
-
-.message div.letter-E {
-    background-color: #5cdd53;
-    color: #323233;
-}
-
-.message div.letter-F {
-    background-color: #4781ff;
-    color: #323233;
-}
-
 /* ------------------------------------------- */
 
 #isomorph-container {
@@ -198,6 +194,11 @@ hr {
 .isomorph .label {
     padding: 0.2rem;
     color: white;
+}
+
+.isomorph .score {
+    padding: 0.2rem;
+    color: #ababab;
 }
 
 .isomorph.selected {
