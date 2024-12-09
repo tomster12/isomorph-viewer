@@ -14,6 +14,10 @@
     box-sizing: border-box;
     font-family: "Cousine", monospace;
     font-size: 20px;
+    --message-gap: 0.3rem;
+    --message-letter-size: 1.5rem;
+    --message-letter-height: 1.65rem;
+    --standard-border-radius: 0.2rem;
 }
 
 body {
@@ -28,37 +32,70 @@ hr {
 
 /* ------------------------------------------- */
 
-#message-view,
-#isomorph-view {
+#messages-outer-container,
+#isomorph-container {
     background-color: #3b4858;
-    border-radius: 0.2rem;
+    border-radius: var(--standard-border-radius);
 }
 
 /* ------------------------------------------- */
 
-#message-view {
-    --message-gap: 0.3rem;
+#messages-outer-container {
+    position: relative;
+    overflow: hidden;
+    overflow-x: scroll;
+    display: flex;
+    flex-direction: row;
+}
+
+#messages-letter-indices {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    gap: var(--message-gap);
+}
+
+#messages-row-indices {
+    position: sticky;
+    left: 0;
+    margin-top: var(--message-letter-size);
+    display: flex;
+    flex-direction: column;
+    gap: var(--message-gap);
+    padding-top: var(--message-gap);
+    background-color: #3b4858;
+}
+
+#messages-container {
+    margin-top: var(--message-letter-size);
     display: flex;
     flex-direction: column;
     padding: var(--message-gap);
     gap: var(--message-gap);
-    overflow: hidden;
-    overflow-x: scroll;
+}
+
+#messages-letter-indices div,
+#messages-row-indices div {
+    flex-shrink: 0;
+    width: var(--message-letter-size);
+    height: var(--message-letter-size);
+    text-align: center;
+    line-height: var(--message-letter-height);
+    color: #323c48;
 }
 
 .message {
     display: flex;
-    align-items: center;
     gap: var(--message-gap);
 }
 
 .message div {
     flex-shrink: 0;
-    width: 1.5rem;
-    height: 1.5rem;
-    border-radius: 0.2rem;
+    width: var(--message-letter-size);
+    height: var(--message-letter-size);
+    border-radius: var(--standard-border-radius);
     text-align: center;
-    line-height: 1.65rem;
+    line-height: var(--message-letter-height);
     background-color: #404d5d;
     color: #384451;
 }
@@ -95,7 +132,7 @@ hr {
 
 /* ------------------------------------------- */
 
-#isomorph-view {
+#isomorph-container {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -110,7 +147,7 @@ hr {
     height: fit-content;
     padding: 0.3rem;
     background-color: #333b45;
-    border-radius: 0.2rem;
+    border-radius: var(--standard-border-radius);
     gap: 0.2rem;
     user-select: none;
     cursor: pointer;
@@ -119,7 +156,7 @@ hr {
 .isomorph .pattern {
     padding: 0.2rem;
     background-color: #6e7886;
-    border-radius: 0.2rem;
+    border-radius: var(--standard-border-radius);
 }
 
 .isomorph .label {
