@@ -1,0 +1,144 @@
+@font-face {
+    font-family: "Oxygen";
+    src: url("assets/oxygen-regular.ttf");
+}
+
+@font-face {
+    font-family: "Cousine";
+    src: url("assets/cousine-regular.ttf");
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Cousine", monospace;
+    font-size: 20px;
+}
+
+body {
+    background-color: #2d3744;
+    margin: 1rem;
+}
+
+hr {
+    margin: 1rem 0;
+    color: #2d3744;
+}
+
+/* ------------------------------------------- */
+
+#message-view,
+#isomorph-view {
+    background-color: #3b4858;
+    border-radius: 0.2rem;
+}
+
+/* ------------------------------------------- */
+
+#message-view {
+    --message-gap: 0.3rem;
+    display: flex;
+    flex-direction: column;
+    padding: var(--message-gap);
+    gap: var(--message-gap);
+    overflow: hidden;
+    overflow-x: scroll;
+}
+
+.message {
+    display: flex;
+    align-items: center;
+    gap: var(--message-gap);
+}
+
+.message div {
+    flex-shrink: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 0.2rem;
+    text-align: center;
+    line-height: 1.65rem;
+    background-color: #404d5d;
+    color: #384451;
+}
+
+.message div.letter-blank {
+    background-color: #5c697d;
+    color: #3e3e40;
+}
+
+.message div.letter-A {
+    background-color: #d36862;
+    color: #323233;
+}
+
+.message div.letter-B {
+    background-color: #b9ee6a;
+    color: #323233;
+}
+
+.message div.letter-C {
+    background-color: #5ddbe2;
+    color: #323233;
+}
+
+.message div.letter-D {
+    background-color: #e076c7;
+    color: #323233;
+}
+
+.message div.letter-E {
+    background-color: #5cdd53;
+    color: #323233;
+}
+
+/* ------------------------------------------- */
+
+#isomorph-view {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 0.45rem;
+    gap: 0.45rem;
+}
+
+.isomorph {
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    height: fit-content;
+    padding: 0.3rem;
+    background-color: #333b45;
+    border-radius: 0.2rem;
+    gap: 0.2rem;
+    user-select: none;
+    cursor: pointer;
+}
+
+.isomorph .pattern {
+    padding: 0.2rem;
+    background-color: #6e7886;
+    border-radius: 0.2rem;
+}
+
+.isomorph .label {
+    padding: 0.2rem;
+    color: white;
+}
+
+.isomorph:hover {
+    background-color: #4b5564;
+}
+
+.isomorph:hover .pattern {
+    background-color: #9aa4b1;
+}
+
+.isomorph.selected {
+    background-color: #576171;
+}
+
+.isomorph.selected .pattern {
+    background-color: #a7b1bd;
+}
