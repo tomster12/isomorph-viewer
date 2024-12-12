@@ -56,7 +56,7 @@ class MessageView {
         }
     }
 
-    highlightIsomorphInstance(pattern, instance, toggle) {
+    toggleIsomorphInstanceHighlighted(pattern, instance, toggle) {
         for (let i = 0; i < pattern.length; i++) {
             if (!toggle) {
                 this.messageDisplays[instance[0]].letters[instance[1] + i].className = "";
@@ -116,7 +116,7 @@ class IsomorphView {
         if (this.selectedPattern != null) {
             this.isomorphDisplays[this.selectedPattern].element.classList.remove("selected");
             for (let instance of ISOMORPH_DATA[this.selectedPattern].instances) {
-                this.messageView.highlightIsomorphInstance(this.selectedPattern, instance, false);
+                this.messageView.toggleIsomorphInstanceHighlighted(this.selectedPattern, instance, false);
             }
         }
 
@@ -134,7 +134,7 @@ class IsomorphView {
             let leftmostIndexMessage = null;
 
             for (let instance of ISOMORPH_DATA[this.selectedPattern].instances) {
-                this.messageView.highlightIsomorphInstance(this.selectedPattern, instance, true);
+                this.messageView.toggleIsomorphInstanceHighlighted(this.selectedPattern, instance, true);
 
                 if (this.messageView.messageDisplays[instance[0]].visible && instance[1] < leftmostIndex) {
                     leftmostIndex = instance[1];
