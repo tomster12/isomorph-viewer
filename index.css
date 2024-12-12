@@ -158,8 +158,12 @@ body {
     border-radius: var(--standard-border-radius);
     text-align: center;
     line-height: var(--message-letter-height);
-    background-color: #404d5d;
-    color: #384451;
+    background-color: #404e5f;
+    color: #393c4b;
+    font-size: 0.9rem;
+
+    /* 212428 */
+    /* white */
 }
 
 /* ------------------------------------------- */

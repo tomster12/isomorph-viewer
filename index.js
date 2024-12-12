@@ -26,25 +26,25 @@ function updateIsomorphLabels() {
 function getColours(letter) {
     switch (letter) {
         case ".":
-            return { bg: "#5c697d", fg: "#3e3e40" };
+            return { bg: "#5f6a79", fg: "#3c3e3f" };
 
         case "A":
-            return { bg: "#d36862", fg: "#323233" };
+            return { bg: "#c7514b", fg: "#ffffff" };
 
         case "B":
-            return { bg: "#c4ee6a", fg: "#323233" };
+            return { bg: "#5ab02c", fg: "#ffffff" };
 
         case "C":
-            return { bg: "#5ddbe2", fg: "#323233" };
+            return { bg: "#cb9b00", fg: "#ffffff" };
 
         case "D":
-            return { bg: "#e076c7", fg: "#323233" };
+            return { bg: "#e660c7", fg: "#ffffff" };
 
         case "E":
-            return { bg: "#5cdd53", fg: "#323233" };
+            return { bg: "#549c9f", fg: "#ffffff" };
 
         case "F":
-            return { bg: "#4781ff", fg: "#323233" };
+            return { bg: "#4781ff", fg: "#ffffff" };
     }
 }
 
@@ -142,6 +142,10 @@ function toggleAscii() {
     TOGGLE_ASCII_BUTTON_ELEMENT.classList.toggle("toggled", asciiToggled);
 }
 
+// Start with ASCII toggled
+TOGGLE_ASCII_BUTTON_ELEMENT.classList.toggle("toggled", true);
+asciiToggled = true;
+
 for (let i = 0; i < EYE_MESSAGES.length; i++) {
     let messageDisplay = {};
     messageDisplay.visible = true;
@@ -154,7 +158,7 @@ for (let i = 0; i < EYE_MESSAGES.length; i++) {
     maxLength = Math.max(maxLength, EYE_MESSAGES[i].length);
     for (let j = 0; j < EYE_MESSAGES[i].length; j++) {
         let letter = document.createElement("div");
-        letter.textContent = EYE_MESSAGES[i][j].toString();
+        letter.textContent = asciiToggled ? String.fromCharCode(EYE_MESSAGES[i][j] + 32) : EYE_MESSAGES[i][j].toString();
         messageDisplay.element.appendChild(letter);
         messageDisplay.letters.push(letter);
     }
