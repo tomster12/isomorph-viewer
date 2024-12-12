@@ -32,7 +32,7 @@ body {
 
 #messages-outer-container,
 #user-input-container,
-#isomorph-container {
+#isomorphs-container {
     background-color: #3b4858;
     border-radius: var(--standard-border-radius);
 }
@@ -163,7 +163,7 @@ body {
 
 /* ------------------------------------------- */
 
-#isomorph-container {
+#isomorphs-container {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
