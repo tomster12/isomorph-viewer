@@ -15,7 +15,7 @@
     font-family: "Cousine", monospace;
     font-size: 20px;
 
-    --standard-padding: 0.6rem;
+    --standard-padding: 0.65rem;
     --standard-border-radius: 0.2rem;
     --message-letter-size: 1.5rem;
     --message-letter-height: 1.75rem;
@@ -24,12 +24,14 @@
     --col-bg: #2d3744;
     --col-panel-bg: #292e37;
     --col-panel-fg: #444d59;
-    --col-button: #424a54;
-    --col-button-toggled: #626975;
-    --col-button-hovered: #969fac;
-    --col-button-label: #848e9c;
-    --col-button-label-toggled: #b4beca;
-    --col-button-label-hovered: #e7ebef;
+    --col-toggle-button: #424a54;
+    --col-toggle-button-toggled: #626975;
+    --col-toggle-button-hovered: #969fac;
+    --col-toggle-button-label: #848e9c;
+    --col-toggle-button-label-toggled: #b4beca;
+    --col-toggle-button-label-hovered: #e7ebef;
+    --col-button: #8c949e;
+    --col-button-hovered: #6a707a;
     --col-message-indices-colour: #222329;
     --col-message-letter-bg: #4c5663;
     --col-message-letter-colour: #34343a;
@@ -65,6 +67,13 @@ body {
 
 /* ------------------------------------------- */
 
+#main-note {
+    text-align: center;
+    color: #161921;
+}
+
+/* ------------------------------------------- */
+
 #messages-view {
     position: relative;
     border-radius: var(--standard-border-radius);
@@ -89,17 +98,17 @@ body {
     justify-content: center;
     padding: 0.3rem;
     border-radius: var(--standard-border-radius);
-    background-color: var(--col-button);
+    background-color: var(--col-toggle-button);
     cursor: pointer;
     user-select: none;
 }
 
 .toolbar-option.toggled {
-    background-color: var(--col-button-toggled);
+    background-color: var(--col-toggle-button-toggled);
 }
 
 .toolbar-option:hover {
-    background-color: var(--col-button-hovered);
+    background-color: var(--col-toggle-button-hovered);
 }
 
 .toolbar-option-label {
@@ -117,7 +126,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--col-button-label);
+    background-color: var(--col-toggle-button-label);
     cursor: pointer;
 }
 
@@ -129,11 +138,11 @@ body {
 }
 
 .toolbar-option.toggled .toolbar-option-image {
-    background-color: var(--col-button-label-toggled);
+    background-color: var(--col-toggle-button-label-toggled);
 }
 
 .toolbar-option:hover .toolbar-option-image {
-    background-color: var(--col-button-label-hovered);
+    background-color: var(--col-toggle-button-label-hovered);
 }
 
 #messages-container {
@@ -199,7 +208,58 @@ body {
 }
 
 .message div.highlighted {
-    box-shadow: 0 0 0.4rem -0.1rem rgba(0, 0, 0, 0.444);
+    box-shadow: 0 0 0.4rem 0.05rem rgba(0, 0, 0, 0.2);
+}
+
+/* ------------------------------------------- */
+
+#isomorph-calculator {
+    border-radius: var(--standard-border-radius);
+    background-color: var(--col-panel-bg);
+    min-height: 2rem;
+    width: 22rem;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--standard-padding);
+    padding: var(--standard-padding);
+    cursor: pointer;
+}
+
+#isomorph-calculator-generate-button {
+    border-radius: var(--standard-border-radius);
+    text-align: center;
+    background-color: var(--col-button);
+    user-select: none;
+    height: 1.7rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+#isomorph-calculator-generate-button:hover {
+    background-color: var(--col-button-hovered);
+}
+
+#isomorph-calculator-generate-button .label {
+    color: black;
+    padding: 0 0.4rem;
+}
+
+#isomorph-calculator-generate-button .spinner {
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    border: 0.2rem solid transparent;
+    border-top-color: rgb(35, 35, 35);
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 /* ------------------------------------------- */
@@ -210,7 +270,7 @@ body {
     flex-direction: column;
     gap: var(--standard-padding);
     padding: var(--standard-padding);
-    height: 19.2rem;
+    height: 19.6rem;
     background-color: var(--col-panel-bg);
 }
 

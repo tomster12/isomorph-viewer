@@ -8,13 +8,22 @@ class MessageView {
 
         this.messageDisplays = [];
         this.maxLength = 0;
-        this.showNumeric = false;
+        this.showASCII = false;
+        this.messagesInput = "";
+        this.messagesParsed = [];
 
-        this.initializeMessages();
+        this.messagesInput = EYE_MESSAGES_RAW;
+
+        this.parseMessagesInput();
+        this.reinitializeMessagesList();
     }
 
-    initializeMessages() {
-        for (let i = 0; i < EYE_MESSAGES.length; i++) {
+    parseMessagesInput() {
+        this.messagesParsed = this.messagesInput.split("\n").map((message) => message.split(","));
+    }
+
+    reinitializeMessagesList() {
+        for (let i = 0; i < this.messagesParsed.length; i++) {
             let messageDisplay = {};
             messageDisplay.visible = true;
             messageDisplay.letters = [];
@@ -23,10 +32,10 @@ class MessageView {
             messageDisplay.element = document.createElement("div");
             messageDisplay.element.classList.add("message");
 
-            this.maxLength = Math.max(this.maxLength, EYE_MESSAGES[i].length);
-            for (let j = 0; j < EYE_MESSAGES[i].length; j++) {
+            this.maxLength = Math.max(this.maxLength, this.messagesParsed[i].length);
+            for (let j = 0; j < this.messagesParsed[i].length; j++) {
                 let letter = document.createElement("div");
-                letter.textContent = this.showNumeric ? EYE_MESSAGES[i][j].toString() : String.fromCharCode(EYE_MESSAGES[i][j] + 32);
+                letter.textContent = this.showASCII ? String.fromCharCode(parseInt(this.messagesParsed[i][j]) + 32) : this.messagesParsed[i][j];
                 messageDisplay.element.appendChild(letter);
                 messageDisplay.letters.push(letter);
             }
@@ -47,12 +56,12 @@ class MessageView {
         }
     }
 
-    toggleShowNumeric() {
-        this.showNumeric = !this.showNumeric;
+    toggleShowASCII() {
+        this.showASCII = !this.showASCII;
         for (let i = 0; i < this.messageDisplays.length; i++) {
             for (let j = 0; j < this.messageDisplays[i].letters.length; j++) {
                 let letter = this.messageDisplays[i].letters[j];
-                letter.textContent = this.showNumeric ? EYE_MESSAGES[i][j].toString() : String.fromCharCode(EYE_MESSAGES[i][j] + 32);
+                letter.textContent = this.showASCII ? String.fromCharCode(parseInt(this.messagesParsed[i][j]) + 32) : this.messagesParsed[i][j];
             }
         }
     }
@@ -75,6 +84,21 @@ class MessageView {
 
     scrollTo(element) {
         this.messagesContainerElement.scrollLeft = element.offsetLeft - 100;
+    }
+}
+
+class IsomorphCalculator {
+    constructor() {
+        this.generateButtonElement = document.getElementById("isomorph-calculator-generate-button");
+        this.generateButtonElement.onclick = () => this.generateIsomorphs();
+    }
+
+    toggleGenerateButtonSpinner(toggle) {
+        this.generateButtonElement.innerHTML = toggle ? "<div class='spinner'></div>" : "<div class='label'>Generate</div>";
+    }
+
+    generateIsomorphs() {
+        this.toggleGenerateButtonSpinner(true);
     }
 }
 
@@ -154,10 +178,10 @@ class IsomorphView {
 }
 
 function setupToolbarListeners(messageView) {
-    const toggleShowNumericButtonElement = document.getElementById("toggle-show-numeric-button");
-    toggleShowNumericButtonElement.onclick = () => {
-        messageView.toggleShowNumeric();
-        toggleShowNumericButtonElement.classList.toggle("toggled", messageView.showNumeric);
+    const toggleShowASCIIButtonElement = document.getElementById("toggle-show-ascii-button");
+    toggleShowASCIIButtonElement.onclick = () => {
+        messageView.toggleShowASCII();
+        toggleShowASCIIButtonElement.classList.toggle("toggled", messageView.showASCII);
     };
 }
 
@@ -187,6 +211,7 @@ function getColours(letter) {
 }
 
 const messageView = new MessageView();
+const isomorphCalculator = new IsomorphCalculator();
 const isomorphView = new IsomorphView(messageView);
 
 setupToolbarListeners(messageView);
