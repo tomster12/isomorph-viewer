@@ -1,7 +1,8 @@
 class MessageView {
     constructor() {
-        this.messagesOuterContainerElement = document.getElementById("messages-outer-container");
+        this.messagesViewElement = document.getElementById("messages-view");
         this.messagesContainerElement = document.getElementById("messages-container");
+        this.messagesListElement = document.getElementById("messages-list");
         this.messagesLetterIndicesElement = document.getElementById("messages-letter-indices");
         this.messagesRowIndicesElement = document.getElementById("messages-row-indices");
 
@@ -30,7 +31,7 @@ class MessageView {
                 messageDisplay.letters.push(letter);
             }
 
-            this.messagesContainerElement.appendChild(messageDisplay.element);
+            this.messagesListElement.appendChild(messageDisplay.element);
             this.messageDisplays.push(messageDisplay);
 
             let rowIndexElement = document.createElement("div");
@@ -71,11 +72,15 @@ class MessageView {
             this.messageDisplays[instance[0]].letters[instance[1] + i].style.color = colours.fg;
         }
     }
+
+    scrollTo(element) {
+        this.messagesContainerElement.scrollLeft = element.offsetLeft - 100;
+    }
 }
 
 class IsomorphView {
     constructor(messageView) {
-        this.isomorphsContainerElement = document.getElementById("isomorphs-container");
+        this.isomorphListElement = document.getElementById("isomorphs-list");
         this.isomorphDisplays = {};
         this.selectedPattern = null;
         this.messageView = messageView;
@@ -107,7 +112,7 @@ class IsomorphView {
             isomorphDisplay.element.appendChild(isomorphDisplay.scoreElement);
             isomorphDisplay.element.onclick = () => this.selectIsomorph(pattern);
 
-            this.isomorphsContainerElement.appendChild(isomorphDisplay.element);
+            this.isomorphListElement.appendChild(isomorphDisplay.element);
             this.isomorphDisplays[pattern] = isomorphDisplay;
         }
     }
@@ -143,7 +148,7 @@ class IsomorphView {
             }
 
             const letterElement = this.messageView.messageDisplays[leftmostIndexMessage].letters[leftmostIndex];
-            this.messageView.messagesOuterContainerElement.scrollLeft = letterElement.offsetLeft - 100;
+            this.messageView.scrollTo(letterElement);
         }
     }
 }
@@ -159,7 +164,7 @@ function setupToolbarListeners(messageView) {
 function getColours(letter) {
     switch (letter) {
         case ".":
-            return { bg: "#5f6a79", fg: "#3c3e3f" };
+            return { bg: "#8792a0", fg: "#3c3e3f" };
 
         case "A":
             return { bg: "#c7514b", fg: "#ffffff" };

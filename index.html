@@ -6,32 +6,36 @@
     </head>
 
     <body>
-        <div class="toolbar">
-            <div id="toggle-show-numeric-button" class="toolbar-option">
-                <div class="toolbar-option-label">Number</div>
-                <div class="toolbar-option-image">
-                    <img src="assets/alphabet.png" />
+        <div id="main-content">
+            <div id="messages-view">
+                <div class="toolbar">
+                    <div id="toggle-edit-button" class="toolbar-option">
+                        <div class="toolbar-option-label">Toggle Input</div>
+                        <div class="toolbar-option-image">
+                            <img src="assets/input.png" />
+                        </div>
+                    </div>
+                    <div id="toggle-show-numeric-button" class="toolbar-option">
+                        <div class="toolbar-option-label">Toggle Numeric</div>
+                        <div class="toolbar-option-image">
+                            <img src="assets/alphabet.png" />
+                        </div>
+                    </div>
+                </div>
+
+                <div id="messages-container">
+                    <div id="messages-letter-indices"><div></div></div>
+                    <div id="messages-row-indices"></div>
+                    <div id="messages-list"></div>
                 </div>
             </div>
-            <div id="toggle-edit-button" class="toolbar-option">
-                <div class="toolbar-option-label">Edit</div>
-                <div class="toolbar-option-image">
-                    <img src="assets/alphabet.png" />
-                </div>
+
+            <div id="isomorphs-view">
+                <div id="isomorphs-list"></div>
             </div>
+
+            <script src="data.js"></script>
+            <script src="index.js"></script>
         </div>
-
-        <div id="messages-outer-container">
-            <div id="messages-letter-indices">
-                <div></div>
-            </div>
-            <div id="messages-row-indices"></div>
-            <div id="messages-container"></div>
-        </div>
-
-        <div id="isomorphs-container"></div>
-
-        <script src="data.js"></script>
-        <script src="index.js"></script>
     </body>
 </html>
