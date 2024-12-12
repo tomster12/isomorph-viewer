@@ -1,16 +1,15 @@
-const MESSAGE_SELECTOR_CONTAINER_ELEMENT = document.getElementById("messages-selector-container");
 const MESSAGE_OUTER_CONTAINER_ELEMENT = document.getElementById("messages-outer-container");
 const MESSAGE_CONTAINER_ELEMENT = document.getElementById("messages-container");
 const MESSAGE_LETTER_INDICES_ELEMENT = document.getElementById("messages-letter-indices");
 const MESSAGE_ROW_INDICES_ELEMENT = document.getElementById("messages-row-indices");
 const ISOMORPH_CONTAINER_ELEMENT = document.getElementById("isomorph-container");
-const TOGGLE_ASCII_BUTTON_ELEMENT = document.getElementById("toggle-ascii-button");
+const TOGGLE_SHOW_NUMERIC_BUTTON_ELEMENT = document.getElementById("toggle-show-numeric-button");
 
 let messageDisplays = [];
 let isomorphDisplays = {};
 let selectedPattern = null;
 let maxLength = 0;
-let asciiToggled = false;
+let showNumeric = false;
 
 function updateIsomorphLabels() {
     for (const pattern in ISOMORPH_DATA) {
@@ -96,55 +95,16 @@ function selectIsomorph(pattern) {
     }
 }
 
-function toggleMessage(index) {
-    let newVisible = !messageDisplays[index].visible;
-    messageDisplays[index].visible = newVisible;
-
-    // Toggle message selector class
-    let messageSelectElement = MESSAGE_SELECTOR_CONTAINER_ELEMENT.children[index];
-    messageSelectElement.classList.toggle("selected", newVisible);
-
-    // Toggle visible in row indices
-    let rowElement = MESSAGE_ROW_INDICES_ELEMENT.children[index];
-    rowElement.style.display = newVisible ? "block" : "none";
-
-    // Toggle visible in messages list
-    let messageElement = MESSAGE_CONTAINER_ELEMENT.children[index];
-    messageElement.style.display = newVisible ? "flex" : "none";
-
-    // Filter out isomorphs that do not include 2 instances in the visible messages
-    for (const pattern in ISOMORPH_DATA) {
-        let visibleCount = 0;
-        for (let instance of ISOMORPH_DATA[pattern].instances) {
-            if (messageDisplays[instance[0]].visible) visibleCount++;
-        }
-
-        const isVisible = visibleCount >= 2;
-        let isomorphDisplay = isomorphDisplays[pattern];
-        isomorphDisplay.element.style.display = isVisible ? "flex" : "none";
-
-        if (!isVisible && selectedPattern == pattern) {
-            selectIsomorph(null);
-        }
-    }
-
-    updateIsomorphLabels();
-}
-
-function toggleAscii() {
-    asciiToggled = !asciiToggled;
+function toggleShowNumeric() {
+    showNumeric = !showNumeric;
     for (let i = 0; i < messageDisplays.length; i++) {
         for (let j = 0; j < messageDisplays[i].letters.length; j++) {
             let letter = messageDisplays[i].letters[j];
-            letter.textContent = asciiToggled ? String.fromCharCode(EYE_MESSAGES[i][j] + 32) : EYE_MESSAGES[i][j].toString();
+            letter.textContent = showNumeric ? EYE_MESSAGES[i][j].toString() : String.fromCharCode(EYE_MESSAGES[i][j] + 32);
         }
     }
-    TOGGLE_ASCII_BUTTON_ELEMENT.classList.toggle("toggled", asciiToggled);
+    TOGGLE_SHOW_NUMERIC_BUTTON_ELEMENT.classList.toggle("toggled", showNumeric);
 }
-
-// Start with ASCII toggled
-TOGGLE_ASCII_BUTTON_ELEMENT.classList.toggle("toggled", true);
-asciiToggled = true;
 
 for (let i = 0; i < EYE_MESSAGES.length; i++) {
     let messageDisplay = {};
@@ -158,7 +118,7 @@ for (let i = 0; i < EYE_MESSAGES.length; i++) {
     maxLength = Math.max(maxLength, EYE_MESSAGES[i].length);
     for (let j = 0; j < EYE_MESSAGES[i].length; j++) {
         let letter = document.createElement("div");
-        letter.textContent = asciiToggled ? String.fromCharCode(EYE_MESSAGES[i][j] + 32) : EYE_MESSAGES[i][j].toString();
+        letter.textContent = showNumeric ? EYE_MESSAGES[i][j].toString() : String.fromCharCode(EYE_MESSAGES[i][j] + 32);
         messageDisplay.element.appendChild(letter);
         messageDisplay.letters.push(letter);
     }
@@ -169,12 +129,6 @@ for (let i = 0; i < EYE_MESSAGES.length; i++) {
     let rowIndexElement = document.createElement("div");
     rowIndexElement.textContent = i.toString();
     MESSAGE_ROW_INDICES_ELEMENT.appendChild(rowIndexElement);
-
-    let messageSelectElement = document.createElement("div");
-    messageSelectElement.textContent = i.toString();
-    messageSelectElement.className = "selected";
-    messageSelectElement.onclick = () => toggleMessage(i);
-    MESSAGE_SELECTOR_CONTAINER_ELEMENT.appendChild(messageSelectElement);
 }
 
 for (let i = 0; i < maxLength; i++) {
@@ -211,4 +165,4 @@ for (const pattern in ISOMORPH_DATA) {
     isomorphDisplays[pattern] = isomorphDisplay;
 }
 
-TOGGLE_ASCII_BUTTON_ELEMENT.onclick = () => toggleAscii();
+TOGGLE_SHOW_NUMERIC_BUTTON_ELEMENT.onclick = () => toggleShowNumeric();
