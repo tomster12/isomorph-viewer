@@ -185,12 +185,12 @@ body {
     color: var(--col-message-indices-colour);
 }
 
-.message {
+.main-message {
     display: flex;
     gap: var(--message-gap);
 }
 
-.message div {
+.main-message div {
     flex-shrink: 0;
     width: var(--message-letter-size);
     height: var(--message-letter-size);
@@ -201,7 +201,7 @@ body {
     color: var(--col-message-letter-colour);
 }
 
-.message div.highlighted {
+.main-message div.highlighted {
     box-shadow: 0 0 0.4rem 0.05rem rgba(0, 0, 0, 0.2);
 }
 
@@ -224,12 +224,21 @@ body {
 
 /* ------------------------------------------- */
 
+#mid-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+/* ------------------------------------------- */
+
 #isomorph-calculator {
     border-radius: var(--standard-border-radius);
     background-color: var(--col-panel-bg);
-    min-height: 2rem;
     width: 18rem;
-    margin: auto;
+    height: fit-content;
     display: flex;
     flex-direction: column;
     gap: var(--standard-padding);
@@ -302,6 +311,73 @@ body {
 
 /* ------------------------------------------- */
 
+#isomorph-selection-view {
+    min-width: 0;
+    max-width: 35rem;
+    flex-grow: 1;
+    height: fit-content;
+    min-height: 10rem;
+    padding: var(--standard-padding);
+    border-radius: var(--standard-border-radius);
+    background-color: var(--col-panel-bg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--standard-padding);
+}
+
+#isomorph-selection-pattern-container {
+    background-color: #5e6875;
+    border-radius: var(--standard-border-radius);
+}
+
+#isomorph-selection-pattern {
+    min-width: 5rem;
+    min-height: 1.6rem;
+    width: fit-content;
+    padding: 0.3rem 0.8rem;
+    background-color: var(--col-isomorph-pattern-bg);
+    border-radius: var(--standard-border-radius);
+}
+
+#isomorph-selection-list {
+    flex-grow: 1;
+    background-color: var(--col-panel-fg);
+    border-radius: var(--standard-border-radius);
+    display: flex;
+    flex-direction: column;
+    padding: var(--message-gap);
+    gap: var(--message-gap);
+    overflow: auto;
+}
+
+#isomorph-selection-list .empty {
+    color: var(--col-generic-text-dark);
+    text-align: center;
+    flex-shrink: 0;
+    margin: auto;
+    margin-top: 2rem;
+}
+
+#isomorph-selection-list .selection-message {
+    display: flex;
+    gap: var(--message-gap);
+    cursor: pointer;
+}
+
+#isomorph-selection-list .selection-message div {
+    flex-shrink: 0;
+    width: var(--message-letter-size);
+    height: var(--message-letter-size);
+    border-radius: var(--standard-border-radius);
+    text-align: center;
+    line-height: var(--message-letter-height);
+    background-color: var(--col-message-letter-bg);
+    color: var(--col-message-letter-colour);
+    box-shadow: 0 0 0.4rem 0.05rem rgba(0, 0, 0, 0.2);
+}
+
+/* ------------------------------------------- */
+
 #isomorphs-view {
     border-radius: var(--standard-border-radius);
     display: flex;
@@ -346,6 +422,7 @@ body {
     text-align: center;
     flex-shrink: 0;
     margin: auto;
+    margin-top: 2rem;
 }
 
 .isomorph {

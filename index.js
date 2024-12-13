@@ -168,7 +168,7 @@ class MessageView {
             messageDisplay.index = i;
 
             messageDisplay.element = document.createElement("div");
-            messageDisplay.element.classList.add("message");
+            messageDisplay.element.classList.add("main-message");
 
             this.maxLength = Math.max(this.maxLength, this.messagesParsed[i].length);
             for (let j = 0; j < this.messagesParsed[i].length; j++) {
@@ -256,6 +256,7 @@ class IsomorphCalculator {
         this.inputMaxLengthElement = document.getElementById("isomorph-calculator-input-max-length");
         this.inputMinValuesElement = document.getElementById("isomorph-calculator-input-min-values");
         this.inputMinInstancesElement = document.getElementById("isomorph-calculator-input-min-instances");
+
         this.messageView = messageView;
         this.isomorphLimit = 30;
         this.minValues = 2;
@@ -327,6 +328,10 @@ class IsomorphView {
     constructor(messageView, isomorphCalculator) {
         this.isomorphListElement = document.getElementById("isomorphs-list");
         this.isomorphInfoElement = document.getElementById("isomorphs-info");
+        this.isomorphsSelectionViewElement = document.getElementById("isomorph-selection-view");
+        this.isomorphsSelectionPatternElement = document.getElementById("isomorph-selection-pattern");
+        this.isomorphsSelectionListElement = document.getElementById("isomorph-selection-list");
+
         this.isomorphDisplays = {};
         this.selectedPattern = null;
         this.messageView = messageView;
@@ -341,7 +346,7 @@ class IsomorphView {
         this.selectIsomorph(null);
 
         if (Object.keys(this.isomorphCalculator.isomorphs).length == 0) {
-            this.isomorphListElement.innerHTML = "<div class='empty'>No isomorphs.</div>";
+            this.isomorphListElement.innerHTML = "<div class='empty'>No isomorphs...</div>";
         } else {
             this.sortedIsomorphs = Object.keys(this.isomorphCalculator.isomorphs).sort(
                 (a, b) => this.isomorphCalculator.isomorphs[b].score - this.isomorphCalculator.isomorphs[a].score
@@ -396,6 +401,7 @@ class IsomorphView {
     }
 
     selectIsomorph(pattern) {
+        // Remove old isomorph highlighting
         if (this.selectedPattern != null) {
             this.messageView.clearIsomorphHighlighting();
             if (this.isomorphDisplays[this.selectedPattern] != null) {
@@ -403,13 +409,16 @@ class IsomorphView {
             }
         }
 
+        // Toggling current isomorph so just deselect
         if (this.selectedPattern == pattern) {
             this.selectedPattern = null;
+            this.updateIsomorphSelectionList();
             return;
         }
 
         this.selectedPattern = pattern;
 
+        // Selecting a new isomorph
         if (this.selectedPattern != null) {
             this.isomorphDisplays[this.selectedPattern].element.classList.add("selected");
 
@@ -425,8 +434,47 @@ class IsomorphView {
                 }
             }
 
+            // Scroll to leftmost visible instance
             const letterElement = this.messageView.messageDisplays[leftmostIndexMessage].letters[leftmostIndex];
             this.messageView.scrollTo(letterElement);
+        }
+
+        this.updateIsomorphSelectionList();
+    }
+
+    updateIsomorphSelectionList() {
+        if (this.selectedPattern == null) {
+            this.isomorphsSelectionListElement.innerHTML = "<div class='empty'>No isomorphs...</div>";
+            return;
+        }
+
+        this.isomorphsSelectionListElement.innerHTML = "";
+        this.isomorphsSelectionPatternElement.innerText = this.selectedPattern;
+
+        for (let instance of this.isomorphCalculator.isomorphs[this.selectedPattern].instances) {
+            const selectionMessageElement = document.createElement("div");
+            selectionMessageElement.classList.toggle("selection-message");
+
+            for (let i = 0; i < this.selectedPattern.length; i++) {
+                let letterElement = document.createElement("div");
+
+                const value = this.messageView.messagesParsed[instance[0]][instance[1] + i];
+                letterElement.textContent = this.messageView.showASCII ? String.fromCharCode(parseInt(value) + 32) : value;
+
+                let colours = getColours(this.selectedPattern[i]);
+                letterElement.style.backgroundColor = colours.bg;
+                letterElement.style.color = colours.fg;
+
+                letterElement.onclick = (e) => {
+                    e.preventDefault();
+                    const element = this.messageView.messageDisplays[instance[0]].letters[instance[1]];
+                    this.messageView.scrollTo(element);
+                };
+
+                selectionMessageElement.appendChild(letterElement);
+            }
+
+            this.isomorphsSelectionListElement.appendChild(selectionMessageElement);
         }
     }
 }

@@ -32,28 +32,38 @@
                 <textarea id="messages-input" style="display: none"></textarea>
             </div>
 
-            <form id="isomorph-calculator">
-                <div class="isomorph-calculator-option">
-                    <div class="label">Max Length</div>
-                    <input type="text" id="isomorph-calculator-input-max-length" value="30" />
+            <div id="mid-container">
+                <div id="isomorph-calculator">
+                    <div class="isomorph-calculator-option">
+                        <div class="label">Max Length</div>
+                        <input type="text" id="isomorph-calculator-input-max-length" value="30" />
+                    </div>
+                    <div class="isomorph-calculator-option">
+                        <div class="label">Min Values</div>
+                        <input type="text" id="isomorph-calculator-input-min-values" value="2" />
+                    </div>
+                    <div class="isomorph-calculator-option">
+                        <div class="label">Min Instances</div>
+                        <input type="text" id="isomorph-calculator-input-min-instances" value="2" />
+                    </div>
+                    <div id="isomorph-calculator-generate-button">
+                        <div class="label" type="submit">Generate</div>
+                    </div>
                 </div>
-                <div class="isomorph-calculator-option">
-                    <div class="label">Min Values</div>
-                    <input type="text" id="isomorph-calculator-input-min-values" value="2" />
+                <div id="isomorph-selection-view">
+                    <div id="isomorph-selection-pattern-container">
+                        <div id="isomorph-selection-pattern"></div>
+                    </div>
+                    <div id="isomorph-selection-list">
+                        <div class="empty">No isomorphs...</div>
+                    </div>
                 </div>
-                <div class="isomorph-calculator-option">
-                    <div class="label">Min Instances</div>
-                    <input type="text" id="isomorph-calculator-input-min-instances" value="2" />
-                </div>
-                <div id="isomorph-calculator-generate-button">
-                    <div class="label" type="submit">Generate</div>
-                </div>
-            </form>
+            </div>
 
             <div id="isomorphs-view">
                 <div id="isomorphs-info"></div>
                 <div id="isomorphs-list">
-                    <div class="empty">Empty...</div>
+                    <div class="empty">No isomorphs...</div>
                 </div>
             </div>
 
