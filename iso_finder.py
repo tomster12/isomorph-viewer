@@ -50,6 +50,9 @@ def find_isomorphs(messages, max_length=30):
                 if pattern not in isomorphs.keys():
                     isomorphs[pattern] = []
 
+                if sequence[0] != sequence[-1]:
+                    print(pattern)
+
                 isomorphs[pattern].append((msg_index, i))
 
     return isomorphs
@@ -175,5 +178,5 @@ if __name__ == "__main__":
     # Print out usable data
     for k, v in isomorphs_filtered.items():
         instances = "[" + ', '.join([f"[{x[0]},{x[1]}]" for x in v]) + "]"
-        print(
-            f'"{k}": {{"score": {isomorph_scores[k]}, "instances": {instances}}},')
+        # print(
+        #     f'"{k}": {{"score": {isomorph_scores[k]}, "instances": {instances}}},')

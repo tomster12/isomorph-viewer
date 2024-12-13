@@ -7,11 +7,9 @@
 
     <body>
         <div id="main-content">
-            <p id="main-note">Note: Toggle Input and Generate not currently implemented.</p>
-
             <div id="messages-view">
                 <div class="toolbar">
-                    <div id="toggle-edit-button" class="toolbar-option">
+                    <div id="toggle-show-input-button" class="toolbar-option">
                         <div class="toolbar-option-label">Toggle Input</div>
                         <div class="toolbar-option-image">
                             <img src="assets/input.png" />
@@ -30,16 +28,33 @@
                     <div id="messages-row-indices"></div>
                     <div id="messages-list"></div>
                 </div>
+
+                <textarea id="messages-input" style="display: none"></textarea>
             </div>
 
-            <div id="isomorph-calculator">
-                <div id="isomorph-calculator-generate-button">
-                    <div class="label">Generate</div>
+            <form id="isomorph-calculator">
+                <div class="isomorph-calculator-option">
+                    <div class="label">Max Length</div>
+                    <input type="text" id="isomorph-calculator-input-max-length" value="30" />
                 </div>
-            </div>
+                <div class="isomorph-calculator-option">
+                    <div class="label">Min Values</div>
+                    <input type="text" id="isomorph-calculator-input-min-values" value="2" />
+                </div>
+                <div class="isomorph-calculator-option">
+                    <div class="label">Min Instances</div>
+                    <input type="text" id="isomorph-calculator-input-min-instances" value="2" />
+                </div>
+                <div id="isomorph-calculator-generate-button">
+                    <div class="label" type="submit">Generate</div>
+                </div>
+            </form>
 
             <div id="isomorphs-view">
-                <div id="isomorphs-list"></div>
+                <div id="isomorphs-info"></div>
+                <div id="isomorphs-list">
+                    <div class="empty">Empty...</div>
+                </div>
             </div>
 
             <script src="data.js"></script>

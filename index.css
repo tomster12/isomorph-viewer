@@ -21,14 +21,15 @@
     --message-letter-height: 1.75rem;
     --message-gap: 0.4rem;
 
+    --col-generic-text-dark: #1f222d;
     --col-bg: #2d3744;
     --col-panel-bg: #292e37;
     --col-panel-fg: #444d59;
     --col-toggle-button: #424a54;
-    --col-toggle-button-toggled: #626975;
+    --col-toggle-button-active: #626975;
     --col-toggle-button-hovered: #969fac;
     --col-toggle-button-label: #848e9c;
-    --col-toggle-button-label-toggled: #b4beca;
+    --col-toggle-button-label-active: #b4beca;
     --col-toggle-button-label-hovered: #e7ebef;
     --col-button: #8c949e;
     --col-button-hovered: #6a707a;
@@ -58,18 +59,11 @@ body {
     gap: 1rem;
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 1600px) {
     #main-content {
-        max-width: 1280px;
+        max-width: 1600px;
         margin: 0 auto;
     }
-}
-
-/* ------------------------------------------- */
-
-#main-note {
-    text-align: center;
-    color: #161921;
 }
 
 /* ------------------------------------------- */
@@ -103,8 +97,8 @@ body {
     user-select: none;
 }
 
-.toolbar-option.toggled {
-    background-color: var(--col-toggle-button-toggled);
+.toolbar-option.active {
+    background-color: var(--col-toggle-button-active);
 }
 
 .toolbar-option:hover {
@@ -137,8 +131,8 @@ body {
     width: 60%;
 }
 
-.toolbar-option.toggled .toolbar-option-image {
-    background-color: var(--col-toggle-button-label-toggled);
+.toolbar-option.active .toolbar-option-image {
+    background-color: var(--col-toggle-button-label-active);
 }
 
 .toolbar-option:hover .toolbar-option-image {
@@ -152,7 +146,7 @@ body {
     background-color: var(--col-panel-fg);
     border-radius: var(--standard-border-radius);
     overflow: hidden;
-    overflow-x: scroll;
+    overflow-x: auto;
 }
 
 #messages-letter-indices {
@@ -211,19 +205,35 @@ body {
     box-shadow: 0 0 0.4rem 0.05rem rgba(0, 0, 0, 0.2);
 }
 
+#messages-input {
+    display: block;
+    width: 100%;
+    height: 15rem;
+    border-radius: var(--standard-border-radius);
+    background-color: #6d747c;
+    color: #2c2c31;
+    padding: var(--standard-padding);
+    font-family: "Cousine", monospace;
+    font-size: 20px;
+    resize: none;
+    outline: none;
+    border: none;
+    text-wrap: nowrap;
+    overflow: auto;
+}
+
 /* ------------------------------------------- */
 
 #isomorph-calculator {
     border-radius: var(--standard-border-radius);
     background-color: var(--col-panel-bg);
     min-height: 2rem;
-    width: 22rem;
+    width: 18rem;
     margin: auto;
     display: flex;
     flex-direction: column;
     gap: var(--standard-padding);
     padding: var(--standard-padding);
-    cursor: pointer;
 }
 
 #isomorph-calculator-generate-button {
@@ -236,6 +246,7 @@ body {
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 }
 
 #isomorph-calculator-generate-button:hover {
@@ -256,6 +267,33 @@ body {
     animation: spin 1s linear infinite;
 }
 
+.isomorph-calculator-option {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 100%;
+    margin: auto;
+}
+
+.isomorph-calculator-option .label {
+    color: #c3c3c3;
+    text-wrap: nowrap;
+    padding: 0 0.4rem;
+}
+
+.isomorph-calculator-option input {
+    width: 5rem;
+    height: 1.7rem;
+    border-radius: var(--standard-border-radius);
+    background-color: var(--col-button);
+    color: black;
+    text-align: center;
+    border: none;
+    outline: none;
+}
+
 @keyframes spin {
     100% {
         transform: rotate(360deg);
@@ -274,15 +312,38 @@ body {
     background-color: var(--col-panel-bg);
 }
 
+#isomorphs-info {
+    padding: 0 1rem;
+    min-height: 1rem;
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    overflow: hidden;
+}
+
+#isomorphs-info div {
+    color: #c3c3c3;
+    text-wrap: nowrap;
+}
+
 #isomorphs-list {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     padding: var(--standard-padding);
     gap: 0.4rem;
-    overflow-y: scroll;
+    flex-grow: 1;
+
     background-color: var(--col-panel-fg);
     border-radius: var(--standard-border-radius);
+    overflow-y: auto;
+}
+
+#isomorphs-list .empty {
+    color: var(--col-generic-text-dark);
+    text-align: center;
+    flex-shrink: 0;
+    margin: auto;
 }
 
 .isomorph {
