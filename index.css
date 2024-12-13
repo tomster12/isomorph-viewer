@@ -330,9 +330,11 @@ body {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: flex-start;
     padding: var(--standard-padding);
     gap: 0.4rem;
     flex-grow: 1;
+    align-content: baseline;
 
     background-color: var(--col-panel-fg);
     border-radius: var(--standard-border-radius);
