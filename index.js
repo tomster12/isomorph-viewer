@@ -159,6 +159,7 @@ class MessageView {
         this.messagesListElement.innerHTML = "";
         this.messagesLetterIndicesElement.innerHTML = "";
         this.messagesRowIndicesElement.innerHTML = "";
+        this.messageDisplays = [];
 
         for (let i = 0; i < this.messagesParsed.length; i++) {
             let messageDisplay = {};
