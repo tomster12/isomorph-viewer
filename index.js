@@ -297,7 +297,7 @@ class IsomorphCalculator {
                         letterSet.add(letter);
                     }
                 }
-                if (letterSet.size > this.minValues) {
+                if (letterSet.size >= this.minValues) {
                     let sequenceSet = new Set();
                     for (let instance of allIsomorphs[pattern].instances) {
                         const instanceList = this.messageView.messagesParsed[instance[0]].slice(instance[1], instance[1] + pattern.length);
