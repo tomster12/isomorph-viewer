@@ -23,11 +23,111 @@ function getColours(letter) {
     }
 }
 
-function calculateIsomorphs(messages, alphabetSize, isomorphLimit) {
+function getCombinations(arr, k) {
+    const result = [];
+    const combination = Array(k).fill(0);
+    function generateCombinations(start, depth) {
+        if (depth === k) {
+            result.push(combination.slice());
+            return;
+        }
+        for (let i = start; i < arr.length; i++) {
+            combination[depth] = arr[i];
+            generateCombinations(i + 1, depth + 1);
+        }
+    }
+    generateCombinations(0, 0);
+    return result;
+}
+
+function cartesianProduct(...arrays) {
+    return arrays.reduce(
+        (acc, curr) => {
+            return acc.flatMap((x) => curr.map((y) => [...x, y]));
+        },
+        [[]]
+    );
+}
+
+function calculateSubPatterns(pattern, maxSymbolsRemoved) {
+    // Calculate some basic information about the pattern
+    const symbols = new Set(pattern.split("").filter((char) => char !== "."));
+    const symbolInnerIndices = {};
+    const symbolCounts = {};
+
+    symbols.forEach((symbol) => {
+        symbolInnerIndices[symbol] = [];
+        symbolCounts[symbol] = 0;
+    });
+
+    for (let i = 0; i < pattern.length; i++) {
+        if (pattern[i] !== ".") {
+            if (i > 0 && i < pattern.length - 1) {
+                symbolInnerIndices[pattern[i]].push(i);
+            }
+            symbolCounts[pattern[i]] += 1;
+        }
+    }
+
+    // Calculate all combinations of removable repeats for each symbol
+    const symbolRemoveCombos = {};
+    symbols.forEach((symbol) => {
+        symbolRemoveCombos[symbol] = [[]];
+        for (let removeCount = 1; removeCount <= symbolInnerIndices[symbol].length; removeCount++) {
+            if (symbolCounts[symbol] - removeCount !== 1) {
+                const combos = getCombinations(symbolInnerIndices[symbol], removeCount);
+                symbolRemoveCombos[symbol].push(...combos);
+            }
+        }
+    });
+
+    // Calculate all combinations of symbol removal combinations
+    const subPatterns = [];
+    const multisymbolRemoveCombos = cartesianProduct(...Array.from(symbols).map((symbol) => symbolRemoveCombos[symbol]));
+    multisymbolRemoveCombos.forEach((multisymbolRemoveCombo) => {
+        // Dont allow the no-change combo
+        if (multisymbolRemoveCombo.every((combo) => combo.length === 0)) return;
+
+        // Dont allow removing more symbols than the max
+        const symbolDifference = multisymbolRemoveCombo.reduce((acc, combo) => acc + combo.length, 0);
+        if (symbolDifference <= maxSymbolsRemoved) {
+            let rawSubPattern = pattern.split("");
+            multisymbolRemoveCombo.forEach((indices) => {
+                indices.forEach((index) => {
+                    rawSubPattern[index] = ".";
+                });
+            });
+            rawSubPattern = rawSubPattern.join("");
+
+            // Remap symbols to be clean
+            const remap = { ".": "." };
+            let i = 0;
+            let finalSubPattern = [];
+            for (let symbol of rawSubPattern) {
+                if (!remap[symbol]) {
+                    remap[symbol] = String.fromCharCode(65 + i);
+                    i += 1;
+                }
+                finalSubPattern.push(remap[symbol]);
+            }
+            finalSubPattern = finalSubPattern.join("");
+
+            // Add the final sub pattern to the list
+            subPatterns.push({
+                pattern: finalSubPattern,
+                distance: symbolDifference,
+            });
+        }
+    });
+
+    return subPatterns;
+}
+
+function calculateIsomorphs(messages, alphabetSize, maxLength) {
     let isomorphs = {};
 
     // For each pattern length from each letter in each message
-    for (let patternLength = 2; patternLength <= isomorphLimit; patternLength++) {
+    for (let patternLength = 2; patternLength <= maxLength; patternLength++) {
         for (let messageIndex = 0; messageIndex < messages.length; messageIndex++) {
             for (let letterIndex = 0; letterIndex < messages[messageIndex].length - patternLength + 1; letterIndex++) {
                 let sequence = messages[messageIndex].slice(letterIndex, letterIndex + patternLength);
@@ -57,19 +157,14 @@ function calculateIsomorphs(messages, alphabetSize, isomorphLimit) {
                 // Get pattern by mapping letters with count > 1 to A, B, C, etc.
                 let letterMapping = {};
                 let letterCounts = {};
-
                 for (let letter of sequence) {
                     letterCounts[letter] = (letterCounts[letter] || 0) + 1;
                 }
-
+                let pattern = "";
                 for (let letter of sequence) {
                     if (letterCounts[letter] > 1 && !letterMapping[letter]) {
                         letterMapping[letter] = String.fromCharCode(65 + Object.keys(letterMapping).length);
                     }
-                }
-
-                let pattern = "";
-                for (let letter of sequence) {
                     pattern += letterMapping[letter] || ".";
                 }
 
@@ -77,7 +172,6 @@ function calculateIsomorphs(messages, alphabetSize, isomorphLimit) {
                 if (!isomorphs[pattern]) {
                     isomorphs[pattern] = { score: 0, instances: [] };
                 }
-
                 isomorphs[pattern].instances.push([messageIndex, letterIndex]);
             }
         }
@@ -240,6 +334,18 @@ class MessageView {
         }
     }
 
+    highlightSimilarIsomorph(pattern, similarPattern, instance) {
+        for (let i = 0; i < pattern.length; i++) {
+            if ((pattern[i] == ".") != (similarPattern[i] == ".")) {
+                this.messageDisplays[instance[0]].letters[instance[1] + i].className = "highlighted warning";
+            } else {
+                let colours = getColours(pattern[i]);
+                this.messageDisplays[instance[0]].letters[instance[1] + i].style.backgroundColor = colours.bg;
+                this.messageDisplays[instance[0]].letters[instance[1] + i].style.color = colours.fg;
+            }
+        }
+    }
+
     clearIsomorphHighlighting() {
         for (let message of this.messageDisplays) {
             for (let letter of message.letters) {
@@ -261,14 +367,18 @@ class IsomorphCalculator {
         this.generateButtonElement = document.getElementById("isomorph-calculator-generate-button");
         this.inputMaxLengthElement = document.getElementById("isomorph-calculator-input-max-length");
         this.inputMinValuesElement = document.getElementById("isomorph-calculator-input-min-values");
-        this.inputMinInstancesElement = document.getElementById("isomorph-calculator-input-min-instances");
+        this.inputSharedSectionsElement = document.getElementById("isomorph-calculator-input-shared-sections");
+        this.inputSubPatternsElement = document.getElementById("isomorph-calculator-input-sub-patterns");
+        this.inputSubPatternMaxDiffElement = document.getElementById("isomorph-calculator-input-sub-patterns-max-diff");
 
         this.messageView = messageView;
-        this.isomorphLimit = 30;
-        this.minValues = 2;
-        this.minInstances = 2;
         this.isomorphs = {};
         this.onGenerateIsomorphListeners = [];
+        this.maxLength = 30;
+        this.minValues = 2;
+        this.allowSharedSections = false;
+        this.generateSubPatterns = false;
+        this.subPatternMaxDiff = 1;
 
         this.calculatorElement.addEventListener("keypress", (evt) => {
             if (evt.keyCode === 13) {
@@ -276,6 +386,11 @@ class IsomorphCalculator {
                 this.generate();
             }
         });
+
+        this.inputSubPatternsElement.onchange = (e) => {
+            this.inputSubPatternMaxDiffElement.parentElement.style.display = e.target.checked ? "flex" : "none";
+        };
+        this.inputSubPatternMaxDiffElement.parentElement.style.display = this.inputSubPatternsElement.checked ? "flex" : "none";
 
         this.generateButtonElement.onclick = () => this.generate();
 
@@ -285,37 +400,64 @@ class IsomorphCalculator {
     async generate() {
         this.toggleGenerateButtonSpinner(true);
 
-        this.isomorphLimit = parseInt(this.inputMaxLengthElement.value);
+        this.maxLength = parseInt(this.inputMaxLengthElement.value);
         this.minValues = parseInt(this.inputMinValuesElement.value);
-        this.minInstances = parseInt(this.inputMinInstancesElement.value);
+        this.allowSharedSections = this.inputSharedSectionsElement.checked;
+        this.generateSubPatterns = this.inputSubPatternsElement.checked;
+        this.subPatternMaxDiff = parseInt(this.inputSubPatternMaxDiffElement.value);
 
-        const allIsomorphs = calculateIsomorphs(this.messageView.messagesParsed, this.messageView.messagesAlphabet.length, this.isomorphLimit);
+        this.isomorphs = calculateIsomorphs(this.messageView.messagesParsed, this.messageView.messagesAlphabet.length, this.maxLength);
 
         // Filter isomorphs that have:
         // - At least 2 instances
-        // - At least 2 distinct letters
-        // - At least 2 distinct sequences
+        // - At least minValues distinct letters
+        // - At least 2 distinct sequences if allowSharedSections is false
 
-        this.isomorphs = {};
-        for (let pattern in allIsomorphs) {
-            if (allIsomorphs[pattern].instances.length >= this.minInstances) {
-                let letterSet = new Set();
-                for (let letter of pattern) {
-                    if (letter != ".") {
-                        letterSet.add(letter);
+        for (let pattern in this.isomorphs) {
+            let letterSet = new Set(pattern.split("").filter((char) => char !== "."));
+            if (letterSet.size < this.minValues) {
+                delete this.isomorphs[pattern];
+                continue;
+            }
+
+            if (!this.allowSharedSections && this.isomorphs[pattern].instances.length > 1) {
+                let sequenceSet = new Set();
+                for (let instance of this.isomorphs[pattern].instances) {
+                    const instanceList = this.messageView.messagesParsed[instance[0]].slice(instance[1], instance[1] + pattern.length);
+                    const instanceString = instanceList.join(",");
+                    sequenceSet.add(instanceString);
+                }
+                if (sequenceSet.size < 2) {
+                    delete this.isomorphs[pattern];
+                    continue;
+                }
+            }
+        }
+
+        // Calculate sub-patterns for the filtered isomorphs
+        // We want to only add the sub-pattern as a nearby isomorph if it has an instance
+
+        if (this.generateSubPatterns) {
+            for (let pattern in this.isomorphs) {
+                this.isomorphs[pattern].similarIsomorphs = [];
+            }
+
+            for (let pattern in this.isomorphs) {
+                const subPatterns = calculateSubPatterns(pattern, this.subPatternMaxDiff);
+                for (let subPattern of subPatterns) {
+                    if (subPattern.pattern in this.isomorphs) {
+                        this.isomorphs[pattern].similarIsomorphs.push(subPattern.pattern);
+                        this.isomorphs[subPattern.pattern].similarIsomorphs.push(pattern);
                     }
                 }
-                if (letterSet.size >= this.minValues) {
-                    let sequenceSet = new Set();
-                    for (let instance of allIsomorphs[pattern].instances) {
-                        const instanceList = this.messageView.messagesParsed[instance[0]].slice(instance[1], instance[1] + pattern.length);
-                        const instanceString = instanceList.join(",");
-                        sequenceSet.add(instanceString);
-                    }
-                    if (sequenceSet.size > 1) {
-                        this.isomorphs[pattern] = allIsomorphs[pattern];
-                    }
-                }
+            }
+        }
+
+        // Filter out isomorphs with 1 instance if they have no similar isomorphs
+
+        for (let pattern in this.isomorphs) {
+            if (this.isomorphs[pattern].instances.length === 1 && (!this.generateSubPatterns || this.isomorphs[pattern].similarIsomorphs.length === 0)) {
+                delete this.isomorphs[pattern];
             }
         }
 
@@ -374,7 +516,15 @@ class IsomorphView {
 
                 isomorphDisplay.labelElement = document.createElement("div");
                 isomorphDisplay.labelElement.classList.add("label");
-                isomorphDisplay.labelElement.textContent = "x" + this.isomorphCalculator.isomorphs[pattern].instances.length.toString();
+                let text = this.isomorphCalculator.isomorphs[pattern].instances.length.toString();
+                if (this.isomorphCalculator.generateSubPatterns && this.isomorphCalculator.isomorphs[pattern].similarIsomorphs.length > 0) {
+                    let total = 0;
+                    for (let similarPattern of this.isomorphCalculator.isomorphs[pattern].similarIsomorphs) {
+                        total += this.isomorphCalculator.isomorphs[similarPattern].instances.length;
+                    }
+                    text += "(" + total + ")";
+                }
+                isomorphDisplay.labelElement.textContent = text;
 
                 isomorphDisplay.scoreElement = document.createElement("div");
                 isomorphDisplay.scoreElement.classList.add("score");
@@ -442,6 +592,17 @@ class IsomorphView {
                 }
             }
 
+            for (let similarPattern of this.isomorphCalculator.isomorphs[this.selectedPattern].similarIsomorphs) {
+                for (let instance of this.isomorphCalculator.isomorphs[similarPattern].instances) {
+                    this.messageView.highlightSimilarIsomorph(this.selectedPattern, similarPattern, instance);
+
+                    if (this.messageView.messageDisplays[instance[0]].visible && instance[1] < leftmostIndex) {
+                        leftmostIndex = instance[1];
+                        leftmostIndexMessage = instance[0];
+                    }
+                }
+            }
+
             // Scroll to leftmost visible instance
             const letterElement = this.messageView.messageDisplays[leftmostIndexMessage].letters[leftmostIndex];
             this.messageView.scrollTo(letterElement);
@@ -465,7 +626,6 @@ class IsomorphView {
 
             for (let i = 0; i < this.selectedPattern.length; i++) {
                 let letterElement = document.createElement("div");
-
                 const value = this.messageView.messagesParsed[instance[0]][instance[1] + i];
                 letterElement.textContent = this.messageView.showASCII ? String.fromCharCode(parseInt(value) + 32) : value;
 
@@ -483,6 +643,40 @@ class IsomorphView {
             }
 
             this.isomorphsSelectionListElement.appendChild(selectionMessageElement);
+        }
+
+        // A.BB.A similar [ A....A ]
+        // A....A similar [ A.BB.A ]
+
+        for (let similarPattern of this.isomorphCalculator.isomorphs[this.selectedPattern].similarIsomorphs) {
+            for (let instance of this.isomorphCalculator.isomorphs[similarPattern].instances) {
+                const selectionMessageElement = document.createElement("div");
+                selectionMessageElement.classList.toggle("selection-message");
+
+                for (let i = 0; i < this.selectedPattern.length; i++) {
+                    let letterElement = document.createElement("div");
+                    const value = this.messageView.messagesParsed[instance[0]][instance[1] + i];
+                    letterElement.textContent = this.messageView.showASCII ? String.fromCharCode(parseInt(value) + 32) : value;
+
+                    if ((this.selectedPattern[i] == ".") != (similarPattern[i] == ".")) {
+                        letterElement.classList.add("warning");
+                    } else {
+                        let colours = getColours(this.selectedPattern[i]);
+                        letterElement.style.backgroundColor = colours.bg;
+                        letterElement.style.color = colours.fg;
+                    }
+
+                    letterElement.onclick = (e) => {
+                        e.preventDefault();
+                        const element = this.messageView.messageDisplays[instance[0]].letters[instance[1]];
+                        this.messageView.scrollTo(element);
+                    };
+
+                    selectionMessageElement.appendChild(letterElement);
+                }
+
+                this.isomorphsSelectionListElement.appendChild(selectionMessageElement);
+            }
         }
     }
 }

@@ -205,6 +205,10 @@ body {
     box-shadow: 0 0 0.4rem 0.05rem rgba(0, 0, 0, 0.2);
 }
 
+.main-message div.warning {
+    outline: 0.1rem solid red;
+}
+
 #messages-input {
     display: block;
     width: 100%;
@@ -293,7 +297,7 @@ body {
     padding: 0 0.4rem;
 }
 
-.isomorph-calculator-option input {
+.isomorph-calculator-option input[type="text"] {
     width: 5rem;
     height: 1.7rem;
     border-radius: var(--standard-border-radius);
@@ -302,6 +306,13 @@ body {
     text-align: center;
     border: none;
     outline: none;
+}
+
+.isomorph-calculator-option input[type="checkbox"] {
+    width: 1.5rem;
+    height: 1.7rem;
+    border-radius: var(--standard-border-radius);
+    background-color: var(--col-button);
 }
 
 @keyframes spin {
@@ -375,6 +386,10 @@ body {
     background-color: var(--col-message-letter-bg);
     color: var(--col-message-letter-colour);
     box-shadow: 0 0 0.4rem 0.05rem rgba(0, 0, 0, 0.2);
+}
+
+#isomorph-selection-list .selection-message div.warning {
+    outline: 0.1rem solid red;
 }
 
 /* ------------------------------------------- */
