@@ -20,7 +20,12 @@ function getColours(letter) {
 
         case "F":
             return { bg: "#4781ff", fg: "#ffffff" };
+
+        case "G":
+            return { bg: "#ff7e29", fg: "#ffffff" };
     }
+
+    return { bg: "#9000ff", fg: "#3c3e3f" };
 }
 
 function getCombinations(arr, k) {
