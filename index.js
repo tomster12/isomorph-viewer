@@ -543,7 +543,7 @@ class IsomorphView {
         this.isomorphInfoElement.innerHTML = "";
 
         let infoElement1 = document.createElement("div");
-        infoElement1.textContent = "Total isomorphs: " + this.sortedIsomorphs.length;
+        infoElement1.textContent = "Total patterns: " + this.sortedIsomorphs.length;
         this.isomorphInfoElement.appendChild(infoElement1);
 
         let infoElement2 = document.createElement("div");
