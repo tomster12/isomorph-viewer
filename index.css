@@ -237,7 +237,8 @@ body {
 #isomorph-calculator {
     border-radius: var(--standard-border-radius);
     background-color: var(--col-panel-bg);
-    width: 18rem;
+    width: 16rem;
+    flex-shrink: 0;
     height: fit-content;
     display: flex;
     flex-direction: column;

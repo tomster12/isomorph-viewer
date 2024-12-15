@@ -1,8 +1,61 @@
 # CODE PRODUCED BY @lymm37 and @toboter ON DISCORD
 # MODIFIED BY ME FOR USE
 
+from itertools import combinations, product
 import math
 import time
+
+
+def calculate_sub_patterns(pattern, max_symbols_removed):
+    # Extract some basic information about the pattern
+    symbols = set(pattern)
+    symbols.remove(".")
+    symbol_inner_indices = {symbol: [] for symbol in symbols}
+    symbol_counts = {symbol: 0 for symbol in symbols}
+    for i in range(len(pattern)):
+        if pattern[i] != ".":
+            if i > 0 and i < len(pattern) - 1:
+                symbol_inner_indices[pattern[i]].append(i)
+            symbol_counts[pattern[i]] += 1
+
+    # Find all combinations of removable repeats for each symbol
+    symbol_remove_combos = {symbol: [] for symbol in symbols}
+    for symbol in symbols:
+        symbol_remove_combos[symbol].append(())
+        for remove_count in range(1, len(symbol_inner_indices[symbol]) + 1):
+            if symbol_counts[symbol] - remove_count != 1:
+                for combo in combinations(symbol_inner_indices[symbol], remove_count):
+                    symbol_remove_combos[symbol].append(combo)
+
+    # Find all combinations of symbol removal combinations
+    symbol_remove_combos_flat = [
+        symbol_remove_combos[symbol] for symbol in symbols]
+    sub_patterns = []
+    for multisymbol_remove_combo in product(*symbol_remove_combos_flat):
+        symbol_difference = sum([len(combo)
+                                for combo in multisymbol_remove_combo])
+        if symbol_difference <= max_symbols_removed:
+
+            # Produce the pattern with the symbols removed
+            raw_sub_pattern = list(pattern)
+            for i in range(len(symbols)):
+                indices = multisymbol_remove_combo[i]
+                for index in indices:
+                    raw_sub_pattern[index] = "."
+            raw_sub_pattern = "".join(raw_sub_pattern)
+
+            # Remap symbols to be clean
+            remap = {".": "."}
+            i = 0
+            final_sub_pattern = []
+            for symbol in raw_sub_pattern:
+                if symbol not in remap:
+                    remap[symbol] = chr(97 + i)
+                    i += 1
+                final_sub_pattern.append(remap[symbol])
+            sub_patterns.append("".join(final_sub_pattern))
+
+    return sub_patterns
 
 
 def pattern_from_sequence(sequence):
@@ -157,13 +210,13 @@ if __name__ == "__main__":
         eye_messages, max_length=41)
     end_time = time.time()
 
+    # More than one instance
+    # More than one repeated trigram
+    # Atleast 2 of the sequences are different
     isomorphs_filtered = {}
     for isomorph in isomorphs:
-        # More than one instance
         if len(isomorphs[isomorph]) > 1:
-            # More than one repeated trigram
             if len(isomorph.replace('.', '')) > 2:
-                # Atleast 2 of the sequences are different
                 if len(set([''.join(eye_messages[msg][pos: pos + len(isomorph)])
                             for msg, pos in isomorphs[isomorph]])) > 1:
                     isomorphs_filtered[isomorph] = isomorphs[isomorph]
@@ -176,7 +229,7 @@ if __name__ == "__main__":
         sorted(isomorphs_filtered.items(), key=lambda x: isomorph_scores[x[0]], reverse=True))
 
     # Print out usable data
-    for k, v in isomorphs_filtered.items():
-        instances = "[" + ', '.join([f"[{x[0]},{x[1]}]" for x in v]) + "]"
-        # print(
-        #     f'"{k}": {{"score": {isomorph_scores[k]}, "instances": {instances}}},')
+    # for k, v in isomorphs_filtered.items():
+    #     instances = "[" + ', '.join([f"[{x[0]},{x[1]}]" for x in v]) + "]"
+    #     print(
+    #         f'"{k}": {{"score": {isomorph_scores[k]}, "instances": {instances}}},')

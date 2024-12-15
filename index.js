@@ -134,6 +134,7 @@ class MessageView {
         this.showASCII = false;
         this.showInput = false;
         this.onMessagesChangedListeners = [];
+        this.onShowAsciiChangedListeners = [];
 
         this.toggleShowInputButtonElement.onclick = () => this.toggleShowInput();
         this.toggleShowASCIIButtonElement.onclick = () => this.toggleShowASCII();
@@ -222,7 +223,12 @@ class MessageView {
                 letter.textContent = this.showASCII ? String.fromCharCode(parseInt(this.messagesParsed[i][j]) + 32) : this.messagesParsed[i][j];
             }
         }
+
         this.toggleShowASCIIButtonElement.classList.toggle("active", this.showASCII);
+
+        for (let listener of this.onShowAsciiChangedListeners) {
+            listener();
+        }
     }
 
     highlightIsomorph(pattern, instance) {
@@ -289,6 +295,7 @@ class IsomorphCalculator {
         // - At least 2 instances
         // - At least 2 distinct letters
         // - At least 2 distinct sequences
+
         this.isomorphs = {};
         for (let pattern in allIsomorphs) {
             if (allIsomorphs[pattern].instances.length >= this.minInstances) {
@@ -339,6 +346,7 @@ class IsomorphView {
         this.sortedIsomorphs = [];
 
         this.isomorphCalculator.onGenerateIsomorphListeners.push(() => this.reinitializeIsomorphs());
+        this.messageView.onShowAsciiChangedListeners.push(() => this.updateIsomorphSelectionList());
     }
 
     reinitializeIsomorphs() {
