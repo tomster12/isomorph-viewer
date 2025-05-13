@@ -175,7 +175,7 @@ function calculateIsomorphs(messages, alphabetSize, maxLength) {
 
                 // Update list of isomorphs with this pattern and track this instance of it
                 if (!isomorphs[pattern]) {
-                    isomorphs[pattern] = { score: 0, instances: [] };
+                    isomorphs[pattern] = { score: 0, instances: [], similarIsomorphs: [] };
                 }
                 isomorphs[pattern].instances.push([messageIndex, letterIndex]);
             }
