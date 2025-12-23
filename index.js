@@ -128,23 +128,26 @@ function calculateSubPatterns(pattern, maxSymbolsRemoved) {
 	return subPatterns;
 }
 
-// n choose k binomial coefficient implementation
-// Could memoize this, but it's probably excessive optimization
 function choose(n, k) {
-	if (k > n/2) {
-		k = n - k;
-	}
+	// n choose k binomial coefficient implementation
+	// Could be memoized for now this is fine
+
+	if (k > n / 2) k = n - k;
+
 	let res = 1;
 	for (let i = 1; i <= k; i++) {
-		res *= (n - i + 1)/i;
+		res *= (n - i + 1) / i;
 	}
+
 	return res;
-	//return factorial(n)/(factorial(k)*factorial(n - k)); // I would have just done this, but then I'd need a BigNumber implementation of factorial
+
+	// Alternatively if we had BigNumber version of factorial could do this
+	//return factorial(n)/(factorial(k)*factorial(n - k));
 }
 
 function calculateIsomorphs(messages, alphabetSize, maxLength) {
 	let isomorphs = {};
-	
+
 	const totalMessageLength = messages.reduce((sum, message) => sum + message.length, 0);
 
 	// For each pattern length from each letter in each message
@@ -221,6 +224,7 @@ function calculateIsomorphs(messages, alphabetSize, maxLength) {
 		if (internalRepeatCount === 1) continue;
 
 		const isoProbability = 1 / Math.pow(alphabetSize, internalRepeatCount);
+
 		// Simplified calculation
 		//const isoScore = -Math.log10(isoProbability);
 		//const groupIsoScore = isoScore * isomorphInstances;
@@ -232,13 +236,12 @@ function calculateIsomorphs(messages, alphabetSize, maxLength) {
 		let lastProbability = 0.0;
 		for (let occurrences = isomorphInstances; occurrences < isomorphInstances + 30; occurrences++) {
 			totalProbability += choose(trialCount, occurrences) * Math.pow(1 - isoProbability, trialCount - occurrences) * Math.pow(isoProbability, occurrences);
-			if (totalProbability == lastProbability) {
-				// Precision limit reached, end early
-				break;
-			}
+			// Precision limit reached, end early
+			if (totalProbability == lastProbability) break;
 			lastProbability = totalProbability;
 		}
 		const groupIsoScore = -Math.log10(totalProbability);
+
 		isomorph.score = groupIsoScore;
 	}
 
@@ -753,7 +756,7 @@ class IsomorphView {
 
 				selectionMessageElement.appendChild(letterElement);
 			}
-            
+
 			selectionMessageElement.onclick = (e) => {
 				e.preventDefault();
 				const element = this.messageView.messageDisplays[instance[0]].letters[instance[1]];
