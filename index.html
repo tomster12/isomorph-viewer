@@ -1,82 +1,92 @@
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <title>Isomorph Viewer</title>
-        <link rel="stylesheet" href="index.css" />
-    </head>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Isomorph Viewer</title>
+		<link rel="stylesheet" href="index.css" />
+	</head>
 
-    <body>
-        <div id="main-content">
-            <div id="messages-view">
-                <div class="toolbar">
-                    <div id="toggle-show-input-button" class="toolbar-option">
-                        <div class="toolbar-option-label">Toggle Input</div>
-                        <div class="toolbar-option-image">
-                            <img src="assets/input.png" />
-                        </div>
-                    </div>
-                    <div id="toggle-show-ascii-button" class="toolbar-option">
-                        <div class="toolbar-option-label">Toggle ASCII</div>
-                        <div class="toolbar-option-image">
-                            <img src="assets/alphabet.png" />
-                        </div>
-                    </div>
-                </div>
+	<body>
+		<div id="main-content">
+			<div id="messages-view">
+				<div class="toolbar">
+					<div id="toggle-show-input-button" class="toolbar-option">
+						<div class="toolbar-option-label">Toggle Input</div>
+						<div class="toolbar-option-image">
+							<img src="assets/input.png" />
+						</div>
+					</div>
+					<div id="toggle-parse-ascii-button" class="toolbar-option">
+						<div class="toolbar-option-label">Parse ASCII</div>
+						<div class="toolbar-option-image">
+							<img src="assets/input.png" />
+						</div>
+					</div>
+					<div id="toggle-show-ascii-button" class="toolbar-option">
+						<div class="toolbar-option-label">Toggle ASCII</div>
+						<div class="toolbar-option-image">
+							<img src="assets/alphabet.png" />
+						</div>
+					</div>
+				</div>
 
-                <div id="messages-container">
-                    <div id="messages-letter-indices"><div></div></div>
-                    <div id="messages-row-indices"></div>
-                    <div id="messages-list"></div>
-                </div>
+				<div id="messages-container">
+					<div id="messages-letter-indices"><div></div></div>
+					<div id="messages-row-indices"></div>
+					<div id="messages-list"></div>
+				</div>
 
-                <textarea id="messages-input" style="display: none"></textarea>
-            </div>
+				<textarea id="messages-input" style="display: none"></textarea>
+			</div>
 
-            <div id="mid-container">
-                <div id="isomorph-calculator">
-                    <div class="isomorph-calculator-option">
-                        <div class="label">Max Length</div>
-                        <input type="text" id="isomorph-calculator-input-max-length" value="30" />
-                    </div>
-                    <div class="isomorph-calculator-option">
-                        <div class="label">Min Values</div>
-                        <input type="text" id="isomorph-calculator-input-min-values" value="2" />
-                    </div>
-                    <div class="isomorph-calculator-option">
-                        <div class="label">Shared Sections</div>
-                        <input type="checkbox" id="isomorph-calculator-input-shared-sections" />
-                    </div>
-                    <div class="isomorph-calculator-option">
-                        <div class="label">Sub Patterns</div>
-                        <input type="checkbox" id="isomorph-calculator-input-sub-patterns" />
-                    </div>
-                    <div class="isomorph-calculator-option" style="display: none">
-                        <div class="label">Max Difference</div>
-                        <input type="text" id="isomorph-calculator-input-sub-patterns-max-diff" value="2" />
-                    </div>
-                    <div id="isomorph-calculator-generate-button">
-                        <div class="label" type="submit">Generate</div>
-                    </div>
-                </div>
-                <div id="isomorph-selection-view">
-                    <div id="isomorph-selection-pattern-container">
-                        <div id="isomorph-selection-pattern"></div>
-                    </div>
-                    <div id="isomorph-selection-list">
-                        <div class="empty">No isomorphs...</div>
-                    </div>
-                </div>
-            </div>
+			<div id="mid-container">
+				<div id="isomorph-calculator">
+					<div class="isomorph-calculator-option">
+						<div class="label">Max Length</div>
+						<input type="text" id="isomorph-calculator-input-max-length" value="30" />
+					</div>
+					<div class="isomorph-calculator-option">
+						<div class="label">Min Values</div>
+						<input type="text" id="isomorph-calculator-input-min-values" value="2" />
+					</div>
+					<div class="isomorph-calculator-option">
+						<div class="label">Shared Sections</div>
+						<input type="checkbox" id="isomorph-calculator-input-shared-sections" />
+					</div>
+					<div class="isomorph-calculator-option">
+						<div class="label">Remove Overlaps</div>
+						<input type="checkbox" id="isomorph-calculator-input-remove-overlaps" />
+					</div>
+					<div class="isomorph-calculator-option">
+						<div class="label">Sub Patterns</div>
+						<input type="checkbox" id="isomorph-calculator-input-sub-patterns" />
+					</div>
+					<div class="isomorph-calculator-option" style="display: none">
+						<div class="label">Max Difference</div>
+						<input type="text" id="isomorph-calculator-input-sub-patterns-max-diff" value="2" />
+					</div>
+					<div id="isomorph-calculator-generate-button">
+						<div class="label" type="submit">Generate</div>
+					</div>
+				</div>
+				<div id="isomorph-selection-view">
+					<div id="isomorph-selection-pattern-container">
+						<div id="isomorph-selection-pattern"></div>
+					</div>
+					<div id="isomorph-selection-list">
+						<div class="empty">No isomorphs...</div>
+					</div>
+				</div>
+			</div>
 
-            <div id="isomorphs-view">
-                <div id="isomorphs-info"></div>
-                <div id="isomorphs-list">
-                    <div class="empty">No isomorphs...</div>
-                </div>
-            </div>
+			<div id="isomorphs-view">
+				<div id="isomorphs-info"></div>
+				<div id="isomorphs-list">
+					<div class="empty">No isomorphs...</div>
+				</div>
+			</div>
 
-            <script src="data.js"></script>
-            <script src="index.js"></script>
-        </div>
-    </body>
+			<script src="data.js"></script>
+			<script src="index.js"></script>
+		</div>
+	</body>
 </html>

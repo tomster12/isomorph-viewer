@@ -1,489 +1,512 @@
 @font-face {
-    font-family: "Oxygen";
-    src: url("assets/oxygen-regular.ttf");
+	font-family: "Oxygen";
+	src: url("assets/oxygen-regular.ttf");
 }
 
 @font-face {
-    font-family: "Cousine";
-    src: url("assets/cousine-regular.ttf");
+	font-family: "Cousine";
+	src: url("assets/cousine-regular.ttf");
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Cousine", monospace;
-    font-size: 20px;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Cousine", monospace;
+	font-size: 20px;
 
-    --standard-padding: 0.65rem;
-    --standard-border-radius: 0.2rem;
-    --message-letter-size: 1.5rem;
-    --message-letter-height: 1.75rem;
-    --message-gap: 0.4rem;
+	--standard-padding: 0.65rem;
+	--standard-border-radius: 0.2rem;
+	--message-letter-size: 1.5rem;
+	--message-letter-height: 1.75rem;
+	--message-gap: 0.4rem;
 
-    --col-generic-text-dark: #1f222d;
-    --col-bg: #2d3744;
-    --col-panel-bg: #292e37;
-    --col-panel-fg: #444d59;
-    --col-toggle-button: #424a54;
-    --col-toggle-button-active: #626975;
-    --col-toggle-button-hovered: #969fac;
-    --col-toggle-button-label: #848e9c;
-    --col-toggle-button-label-active: #b4beca;
-    --col-toggle-button-label-hovered: #e7ebef;
-    --col-button: #8c949e;
-    --col-button-hovered: #6a707a;
-    --col-message-indices-colour: #222329;
-    --col-message-letter-bg: #4c5663;
-    --col-message-letter-colour: #34343a;
-    --col-isomorph-bg: #2e353d;
-    --col-isomorph-pattern-bg: #8c949e;
-    --col-isomorph-label-color: #fefefe;
-    --col-isomorph-score-color: #ababab;
-    --col-isomorph-selected-bg: #576171;
-    --col-isomorph-selected-pattern-bg: #a7b1bd;
-    --col-isomorph-hover-bg: #6c7787;
-    --col-isomorph-hover-pattern-bg: #c3cbd4;
+	--col-generic-text-dark: #1f222d;
+	--col-bg: #2d3744;
+	--col-panel-bg: #292e37;
+	--col-panel-fg: #444d59;
+
+	--col-toggle-button: #424a54;
+	--col-toggle-button-active: #626975;
+	--col-toggle-button-hovered: #969fac;
+	--col-toggle-button-label: #848e9c;
+	--col-toggle-button-label-active: #b4beca;
+	--col-toggle-button-label-hovered: #e7ebef;
+
+	--col-button: #8c949e;
+	--col-button-hovered: #6a707a;
+
+	--col-message-indices-colour: #222329;
+	--col-message-letter-bg: #4c5663;
+	--col-message-letter-colour: #34343a;
+
+	--col-isomorph-bg: #2e353d;
+	--col-isomorph-pattern-bg: #8c949e;
+	--col-isomorph-label-color: #fefefe;
+	--col-isomorph-score-color: #ababab;
+	--col-isomorph-selected-bg: #576171;
+	--col-isomorph-selected-pattern-bg: #a7b1bd;
+	--col-isomorph-hover-bg: #6c7787;
+	--col-isomorph-hover-pattern-bg: #c3cbd4;
+
+	--col-isomorph-instance-hovered: #3c434c;
+	--col-isomorph-instance-indices-bg: #4e5764;
 }
 
 body {
-    background-color: var(--col-bg);
+	background-color: var(--col-bg);
 }
 
 #main-content {
-    display: flex;
-    flex-direction: column;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+	display: flex;
+	flex-direction: column;
+	padding: 1rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
 }
 
 @media (min-width: 1600px) {
-    #main-content {
-        max-width: 1600px;
-        margin: 0 auto;
-    }
+	#main-content {
+		max-width: 1600px;
+		margin: 0 auto;
+	}
 }
 
 /* ------------------------------------------- */
 
 #messages-view {
-    position: relative;
-    border-radius: var(--standard-border-radius);
-    display: flex;
-    flex-direction: column;
-    gap: var(--standard-padding);
-    padding: var(--standard-padding);
-    background-color: var(--col-panel-bg);
+	position: relative;
+	border-radius: var(--standard-border-radius);
+	display: flex;
+	flex-direction: column;
+	gap: var(--standard-padding);
+	padding: var(--standard-padding);
+	background-color: var(--col-panel-bg);
 }
 
 .toolbar {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: var(--standard-padding);
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: var(--standard-padding);
 }
 
 .toolbar-option {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    padding: 0.3rem;
-    border-radius: var(--standard-border-radius);
-    background-color: var(--col-toggle-button);
-    cursor: pointer;
-    user-select: none;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	padding: 0.3rem;
+	border-radius: var(--standard-border-radius);
+	background-color: var(--col-toggle-button);
+	cursor: pointer;
+	user-select: none;
 }
 
 .toolbar-option.active {
-    background-color: var(--col-toggle-button-active);
+	background-color: var(--col-toggle-button-active);
 }
 
 .toolbar-option:hover {
-    background-color: var(--col-toggle-button-hovered);
+	background-color: var(--col-toggle-button-hovered);
 }
 
 .toolbar-option-label {
-    color: white;
-    height: 1rem;
-    padding: 0 var(--standard-padding);
-    text-align: center;
+	color: white;
+	height: 1rem;
+	padding: 0 var(--standard-padding);
+	text-align: center;
 }
 
 .toolbar-option-image {
-    flex-shrink: 0;
-    width: var(--message-letter-size);
-    height: var(--message-letter-size);
-    border-radius: var(--standard-border-radius);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--col-toggle-button-label);
-    cursor: pointer;
+	flex-shrink: 0;
+	width: var(--message-letter-size);
+	height: var(--message-letter-size);
+	border-radius: var(--standard-border-radius);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: var(--col-toggle-button-label);
+	cursor: pointer;
 }
 
 .toolbar-option-image img {
-    object-fit: contain;
-    max-width: 100%;
-    max-height: 100%;
-    width: 60%;
+	object-fit: contain;
+	max-width: 100%;
+	max-height: 100%;
+	width: 60%;
 }
 
 .toolbar-option.active .toolbar-option-image {
-    background-color: var(--col-toggle-button-label-active);
+	background-color: var(--col-toggle-button-label-active);
 }
 
 .toolbar-option:hover .toolbar-option-image {
-    background-color: var(--col-toggle-button-label-hovered);
+	background-color: var(--col-toggle-button-label-hovered);
 }
 
 #messages-container {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    background-color: var(--col-panel-fg);
-    border-radius: var(--standard-border-radius);
-    overflow: hidden;
-    overflow-x: auto;
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	background-color: var(--col-panel-fg);
+	border-radius: var(--standard-border-radius);
+	overflow: hidden;
+	overflow-x: auto;
 }
 
 #messages-letter-indices {
-    position: absolute;
-    display: flex;
-    flex-direction: row;
-    gap: var(--message-gap);
+	position: absolute;
+	display: flex;
+	flex-direction: row;
+	gap: var(--message-gap);
 }
 
 #messages-row-indices {
-    margin-top: var(--message-letter-size);
-    position: sticky;
-    left: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--message-gap);
-    padding-top: var(--message-gap);
-    background-color: var(--col-panel-fg);
+	margin-top: var(--message-letter-size);
+	position: sticky;
+	left: 0;
+	display: flex;
+	flex-direction: column;
+	gap: var(--message-gap);
+	padding-top: var(--message-gap);
+	background-color: var(--col-panel-fg);
 }
 
 #messages-list {
-    margin-top: var(--message-letter-size);
-    display: flex;
-    flex-direction: column;
-    padding: var(--message-gap);
-    gap: var(--message-gap);
+	margin-top: var(--message-letter-size);
+	display: flex;
+	flex-direction: column;
+	padding: var(--message-gap);
+	gap: var(--message-gap);
 }
 
 #messages-letter-indices div,
 #messages-row-indices div {
-    flex-shrink: 0;
-    width: var(--message-letter-size);
-    height: var(--message-letter-size);
-    text-align: center;
-    line-height: var(--message-letter-height);
-    color: var(--col-message-indices-colour);
+	flex-shrink: 0;
+	width: var(--message-letter-size);
+	height: var(--message-letter-size);
+	text-align: center;
+	line-height: var(--message-letter-height);
+	color: var(--col-message-indices-colour);
 }
 
 .main-message {
-    display: flex;
-    gap: var(--message-gap);
+	display: flex;
+	gap: var(--message-gap);
 }
 
 .main-message div {
-    flex-shrink: 0;
-    width: var(--message-letter-size);
-    height: var(--message-letter-size);
-    border-radius: var(--standard-border-radius);
-    text-align: center;
-    line-height: var(--message-letter-height);
-    background-color: var(--col-message-letter-bg);
-    color: var(--col-message-letter-colour);
+	flex-shrink: 0;
+	width: var(--message-letter-size);
+	height: var(--message-letter-size);
+	border-radius: var(--standard-border-radius);
+	text-align: center;
+	line-height: var(--message-letter-height);
+	background-color: var(--col-message-letter-bg);
+	color: var(--col-message-letter-colour);
 }
 
 .main-message div.highlighted {
-    box-shadow: 0 0 0.4rem 0.05rem rgba(0, 0, 0, 0.2);
+	box-shadow: 0 0 0.4rem 0.05rem rgba(0, 0, 0, 0.2);
 }
 
 .main-message div.warning {
-    outline: 0.1rem solid red;
+	outline: 0.1rem solid red;
 }
 
 #messages-input {
-    display: block;
-    width: 100%;
-    height: 15rem;
-    border-radius: var(--standard-border-radius);
-    background-color: #6d747c;
-    color: #2c2c31;
-    padding: var(--standard-padding);
-    font-family: "Cousine", monospace;
-    font-size: 20px;
-    resize: none;
-    outline: none;
-    border: none;
-    text-wrap: nowrap;
-    overflow: auto;
+	display: block;
+	width: 100%;
+	height: 15rem;
+	border-radius: var(--standard-border-radius);
+	background-color: #6d747c;
+	color: #2c2c31;
+	padding: var(--standard-padding);
+	font-family: "Cousine", monospace;
+	font-size: 20px;
+	resize: none;
+	outline: none;
+	border: none;
+	text-wrap: nowrap;
+	overflow: auto;
 }
 
 /* ------------------------------------------- */
 
 #mid-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	gap: 1rem;
 }
 
 /* ------------------------------------------- */
 
 #isomorph-calculator {
-    border-radius: var(--standard-border-radius);
-    background-color: var(--col-panel-bg);
-    width: 16rem;
-    flex-shrink: 0;
-    height: fit-content;
-    display: flex;
-    flex-direction: column;
-    gap: var(--standard-padding);
-    padding: var(--standard-padding);
+	border-radius: var(--standard-border-radius);
+	background-color: var(--col-panel-bg);
+	width: 16rem;
+	flex-shrink: 0;
+	height: fit-content;
+	display: flex;
+	flex-direction: column;
+	gap: var(--standard-padding);
+	padding: var(--standard-padding);
 }
 
 #isomorph-calculator-generate-button {
-    border-radius: var(--standard-border-radius);
-    text-align: center;
-    background-color: var(--col-button);
-    user-select: none;
-    height: 1.7rem;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
+	border-radius: var(--standard-border-radius);
+	text-align: center;
+	background-color: var(--col-button);
+	user-select: none;
+	height: 1.7rem;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
 }
 
 #isomorph-calculator-generate-button:hover {
-    background-color: var(--col-button-hovered);
+	background-color: var(--col-button-hovered);
 }
 
 #isomorph-calculator-generate-button .label {
-    color: black;
-    padding: 0 0.4rem;
+	color: black;
+	padding: 0 0.4rem;
 }
 
 #isomorph-calculator-generate-button .spinner {
-    width: 1.2rem;
-    height: 1.2rem;
-    border-radius: 50%;
-    border: 0.2rem solid transparent;
-    border-top-color: rgb(35, 35, 35);
-    animation: spin 1s linear infinite;
+	width: 1.2rem;
+	height: 1.2rem;
+	border-radius: 50%;
+	border: 0.2rem solid transparent;
+	border-top-color: rgb(35, 35, 35);
+	animation: spin 1s linear infinite;
 }
 
 .isomorph-calculator-option {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    max-width: 100%;
-    margin: auto;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	max-width: 100%;
+	margin: auto;
 }
 
 .isomorph-calculator-option .label {
-    color: #c3c3c3;
-    text-wrap: nowrap;
-    padding: 0 0.4rem;
+	color: #c3c3c3;
+	text-wrap: nowrap;
+	padding: 0 0.4rem;
 }
 
 .isomorph-calculator-option input[type="text"] {
-    width: 5rem;
-    height: 1.7rem;
-    border-radius: var(--standard-border-radius);
-    background-color: var(--col-button);
-    color: black;
-    text-align: center;
-    border: none;
-    outline: none;
+	width: 5rem;
+	height: 1.7rem;
+	border-radius: var(--standard-border-radius);
+	background-color: var(--col-button);
+	color: black;
+	text-align: center;
+	border: none;
+	outline: none;
 }
 
 .isomorph-calculator-option input[type="checkbox"] {
-    width: 1.5rem;
-    height: 1.7rem;
-    border-radius: var(--standard-border-radius);
-    background-color: var(--col-button);
+	width: 1.5rem;
+	height: 1.7rem;
+	border-radius: var(--standard-border-radius);
+	background-color: var(--col-button);
 }
 
 @keyframes spin {
-    100% {
-        transform: rotate(360deg);
-    }
+	100% {
+		transform: rotate(360deg);
+	}
 }
 
 /* ------------------------------------------- */
 
 #isomorph-selection-view {
-    min-width: 0;
-    max-width: 35rem;
-    flex-grow: 1;
-    height: fit-content;
-    min-height: 10rem;
-    padding: var(--standard-padding);
-    border-radius: var(--standard-border-radius);
-    background-color: var(--col-panel-bg);
-    display: flex;
-    flex-direction: column;
-    gap: var(--standard-padding);
+	min-width: 0;
+	max-width: 50rem;
+	flex-grow: 1;
+	height: fit-content;
+	min-height: 10rem;
+	padding: var(--standard-padding);
+	border-radius: var(--standard-border-radius);
+	background-color: var(--col-panel-bg);
+	display: flex;
+	flex-direction: column;
+	gap: var(--standard-padding);
 }
 
 #isomorph-selection-pattern-container {
-    background-color: #5e6875;
-    border-radius: var(--standard-border-radius);
+	display: none;
+	background-color: #5e6875;
+	border-radius: var(--standard-border-radius);
 }
 
 #isomorph-selection-pattern {
-    min-width: 5rem;
-    min-height: 1.6rem;
-    width: fit-content;
-    padding: 0.3rem 0.8rem;
-    background-color: var(--col-isomorph-pattern-bg);
-    border-radius: var(--standard-border-radius);
+	min-height: 1.6rem;
+	width: fit-content;
+	padding: 0.3rem 0.8rem;
+	background-color: var(--col-isomorph-pattern-bg);
+	border-radius: var(--standard-border-radius);
 }
 
 #isomorph-selection-list {
-    flex-grow: 1;
-    background-color: var(--col-panel-fg);
-    border-radius: var(--standard-border-radius);
-    display: flex;
-    flex-direction: column;
-    padding: var(--message-gap);
-    gap: var(--message-gap);
-    overflow: auto;
+	flex-grow: 1;
+	background-color: var(--col-panel-fg);
+	border-radius: var(--standard-border-radius);
+	display: flex;
+	flex-direction: column;
+	padding: calc(var(--message-gap) * 0.5);
+	overflow: auto;
 }
 
 #isomorph-selection-list .empty {
-    color: var(--col-generic-text-dark);
-    text-align: center;
-    flex-shrink: 0;
-    margin: auto;
-    margin-top: 2rem;
+	color: var(--col-generic-text-dark);
+	text-align: center;
+	flex-shrink: 0;
+	margin: auto;
+	margin-top: 2rem;
 }
 
 #isomorph-selection-list .selection-message {
-    display: flex;
-    gap: var(--message-gap);
-    cursor: pointer;
+	display: flex;
+	gap: var(--message-gap);
+	padding: calc(var(--message-gap) * 0.5);
+	cursor: pointer;
+	transition: background 0.2s;
+	align-items: center;
 }
 
-#isomorph-selection-list .selection-message div {
-    flex-shrink: 0;
-    width: var(--message-letter-size);
-    height: var(--message-letter-size);
-    border-radius: var(--standard-border-radius);
-    text-align: center;
-    line-height: var(--message-letter-height);
-    background-color: var(--col-message-letter-bg);
-    color: var(--col-message-letter-colour);
-    box-shadow: 0 0 0.4rem 0.05rem rgba(0, 0, 0, 0.2);
+#isomorph-selection-list .selection-message:hover {
+	background-color: var(--col-isomorph-instance-hovered);
 }
 
-#isomorph-selection-list .selection-message div.warning {
-    outline: 0.1rem solid red;
+#isomorph-selection-list .selection-message-indices {
+	padding: 0 var(--message-gap);
+	background-color: var(--col-isomorph-instance-indices-bg);
+	border-radius: var(--standard-border-radius);
+	height: var(--message-letter-size);
+	text-align: center;
+	line-height: var(--message-letter-height);
+	flex-shrink: 0;
+}
+
+#isomorph-selection-list .selection-letter {
+	flex-shrink: 0;
+	width: var(--message-letter-size);
+	height: var(--message-letter-size);
+	border-radius: var(--standard-border-radius);
+	text-align: center;
+	line-height: var(--message-letter-height);
+	background-color: var(--col-message-letter-bg);
+	color: var(--col-message-letter-colour);
+	box-shadow: 0 0 0.4rem 0.05rem rgba(0, 0, 0, 0.2);
+}
+
+#isomorph-selection-list .selection-letter.warning {
+	outline: 0.1rem solid red;
 }
 
 /* ------------------------------------------- */
 
 #isomorphs-view {
-    border-radius: var(--standard-border-radius);
-    display: flex;
-    flex-direction: column;
-    gap: var(--standard-padding);
-    padding: var(--standard-padding);
-    height: 19.6rem;
-    background-color: var(--col-panel-bg);
+	border-radius: var(--standard-border-radius);
+	display: flex;
+	flex-direction: column;
+	gap: var(--standard-padding);
+	padding: var(--standard-padding);
+	height: 19.6rem;
+	background-color: var(--col-panel-bg);
 }
 
 #isomorphs-info {
-    padding: 0 1rem;
-    min-height: 1rem;
-    display: flex;
-    flex-direction: row;
-    gap: 2rem;
-    overflow: hidden;
+	padding: 0 1rem;
+	min-height: 1rem;
+	display: flex;
+	flex-direction: row;
+	gap: 2rem;
+	overflow: hidden;
 }
 
 #isomorphs-info div {
-    color: #c3c3c3;
-    text-wrap: nowrap;
+	color: #c3c3c3;
+	text-wrap: nowrap;
 }
 
 #isomorphs-list {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    padding: var(--standard-padding);
-    gap: 0.4rem;
-    flex-grow: 1;
-    align-content: baseline;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	padding: var(--standard-padding);
+	gap: 0.4rem;
+	flex-grow: 1;
+	align-content: baseline;
 
-    background-color: var(--col-panel-fg);
-    border-radius: var(--standard-border-radius);
-    overflow-y: auto;
+	background-color: var(--col-panel-fg);
+	border-radius: var(--standard-border-radius);
+	overflow-y: auto;
 }
 
 #isomorphs-list .empty {
-    color: var(--col-generic-text-dark);
-    text-align: center;
-    flex-shrink: 0;
-    margin: auto;
-    margin-top: 2rem;
+	color: var(--col-generic-text-dark);
+	text-align: center;
+	flex-shrink: 0;
+	margin: auto;
+	margin-top: 2rem;
 }
 
 .isomorph {
-    display: flex;
-    flex-direction: row;
-    width: fit-content;
-    height: fit-content;
-    padding: 0.4rem;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--col-isomorph-bg);
-    border-radius: var(--standard-border-radius);
-    user-select: none;
-    cursor: pointer;
+	display: flex;
+	flex-direction: row;
+	width: fit-content;
+	height: fit-content;
+	padding: 0.4rem;
+	justify-content: center;
+	align-items: center;
+	background-color: var(--col-isomorph-bg);
+	border-radius: var(--standard-border-radius);
+	user-select: none;
+	cursor: pointer;
 }
 
 .isomorph .pattern {
-    padding: 0.3rem;
-    background-color: var(--col-isomorph-pattern-bg);
-    border-radius: var(--standard-border-radius);
+	padding: 0.3rem;
+	background-color: var(--col-isomorph-pattern-bg);
+	border-radius: var(--standard-border-radius);
 }
 
 .isomorph .label {
-    vertical-align: middle;
-    padding: 0 0.8rem;
-    color: var(--col-isomorph-label-color);
+	vertical-align: middle;
+	padding: 0 0.8rem;
+	color: var(--col-isomorph-label-color);
 }
 
 .isomorph .score {
-    padding: 0 0.2rem 0 0;
-    color: var(--col-isomorph-score-color);
+	padding: 0 0.2rem 0 0;
+	color: var(--col-isomorph-score-color);
 }
 
 .isomorph.selected {
-    background-color: var(--col-isomorph-selected-bg);
+	background-color: var(--col-isomorph-selected-bg);
 }
 
 .isomorph.selected .pattern {
-    background-color: var(--col-isomorph-selected-pattern-bg);
+	background-color: var(--col-isomorph-selected-pattern-bg);
 }
 
 .isomorph:hover {
-    background-color: var(--col-isomorph-hover-bg);
+	background-color: var(--col-isomorph-hover-bg);
 }
 
 .isomorph:hover .pattern {
-    background-color: var(--col-isomorph-hover-pattern-bg);
+	background-color: var(--col-isomorph-hover-pattern-bg);
 }
