@@ -128,8 +128,24 @@ function calculateSubPatterns(pattern, maxSymbolsRemoved) {
 	return subPatterns;
 }
 
+// n choose k binomial coefficient implementation
+// Could memoize this, but it's probably excessive optimization
+function choose(n, k) {
+	if (k > n/2) {
+		k = n - k;
+	}
+	let res = 1;
+	for (let i = 1; i <= k; i++) {
+		res *= (n - i + 1)/i;
+	}
+	return res;
+	//return factorial(n)/(factorial(k)*factorial(n - k)); // I would have just done this, but then I'd need a BigNumber implementation of factorial
+}
+
 function calculateIsomorphs(messages, alphabetSize, maxLength) {
 	let isomorphs = {};
+	
+	const totalMessageLength = messages.reduce((sum, message) => sum + message.length, 0);
 
 	// For each pattern length from each letter in each message
 	for (let patternLength = 2; patternLength <= maxLength; patternLength++) {
@@ -205,9 +221,24 @@ function calculateIsomorphs(messages, alphabetSize, maxLength) {
 		if (internalRepeatCount === 1) continue;
 
 		const isoProbability = 1 / Math.pow(alphabetSize, internalRepeatCount);
-		const isoScore = -Math.log10(isoProbability);
-		const groupIsoScore = isoScore * isomorphInstances;
+		// Simplified calculation
+		//const isoScore = -Math.log10(isoProbability);
+		//const groupIsoScore = isoScore * isomorphInstances;
 
+		// More precise calculation taking into account the length, assuming binomially distributed occurrences
+		// Calculating p(occurrences >= isomorphInstances), truncating the sum because eventually the contributions will be small
+		const trialCount = totalMessageLength - messages.length * isomorphLength;
+		let totalProbability = 0.0;
+		let lastProbability = 0.0;
+		for (let occurrences = isomorphInstances; occurrences < isomorphInstances + 30; occurrences++) {
+			totalProbability += choose(trialCount, occurrences) * Math.pow(1 - isoProbability, trialCount - occurrences) * Math.pow(isoProbability, occurrences);
+			if (totalProbability == lastProbability) {
+				// Precision limit reached, end early
+				break;
+			}
+			lastProbability = totalProbability;
+		}
+		const groupIsoScore = -Math.log10(totalProbability);
 		isomorph.score = groupIsoScore;
 	}
 
