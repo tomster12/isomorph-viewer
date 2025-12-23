@@ -705,7 +705,7 @@ class IsomorphView {
 
 			const selectionMessageIndicesElement = document.createElement("div");
 			selectionMessageIndicesElement.classList.toggle("selection-message-indices");
-			selectionMessageIndicesElement.innerHTML = `${instance[0]}:${instance[1]}-${instance[1] + this.selectedPattern.length}`;
+			selectionMessageIndicesElement.innerHTML = `${instance[0]}:${instance[1] + 1}-${instance[1] + this.selectedPattern.length}`;
 
 			selectionMessageElement.appendChild(selectionMessageIndicesElement);
 
