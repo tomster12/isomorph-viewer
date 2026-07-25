@@ -434,6 +434,7 @@ body {
 	flex-direction: row;
 	gap: 2rem;
 	overflow: hidden;
+	flex-wrap: wrap;
 }
 
 #isomorphs-info div {

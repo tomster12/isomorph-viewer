@@ -1,32 +1,4 @@
-function getColours(letter) {
-	switch (letter) {
-		case ".":
-			return { bg: "#8792a0", fg: "#3c3e3f" };
-
-		case "A":
-			return { bg: "#c7514b", fg: "#ffffff" };
-
-		case "B":
-			return { bg: "#5ab02c", fg: "#ffffff" };
-
-		case "C":
-			return { bg: "#cb9b00", fg: "#ffffff" };
-
-		case "D":
-			return { bg: "#e660c7", fg: "#ffffff" };
-
-		case "E":
-			return { bg: "#549c9f", fg: "#ffffff" };
-
-		case "F":
-			return { bg: "#4781ff", fg: "#ffffff" };
-
-		case "G":
-			return { bg: "#ff7e29", fg: "#ffffff" };
-	}
-
-	return { bg: "#9000ff", fg: "#3c3e3f" };
-}
+// -------------------- Utility --------------------
 
 function getCombinations(arr, k) {
 	const result = [];
@@ -50,8 +22,39 @@ function cartesianProduct(...arrays) {
 		(acc, curr) => {
 			return acc.flatMap((x) => curr.map((y) => [...x, y]));
 		},
-		[[]]
+		[[]],
 	);
+}
+
+function choose(n, k) {
+	// n choose k binomial coefficient implementation
+	// Could be memoized for now this is fine
+
+	if (k > n / 2) k = n - k;
+
+	let res = 1;
+	for (let i = 1; i <= k; i++) {
+		res *= (n - i + 1) / i;
+	}
+
+	return res;
+
+	// Alternatively if we had BigNumber version of factorial could do this
+	//return factorial(n)/(factorial(k)*factorial(n - k));
+}
+
+function getColours(letter) {
+	switch (letter) {
+		case ".": return { bg: "#8792a0", fg: "#3c3e3f" };
+		case "A": return { bg: "#c7514b", fg: "#ffffff" };
+		case "B": return { bg: "#5ab02c", fg: "#ffffff" };
+		case "C": return { bg: "#cb9b00", fg: "#ffffff" };
+		case "D": return { bg: "#e660c7", fg: "#ffffff" };
+		case "E": return { bg: "#549c9f", fg: "#ffffff" };
+		case "F": return { bg: "#4781ff", fg: "#ffffff" };
+		case "G": return { bg: "#ff7e29", fg: "#ffffff" };
+	}
+	return { bg: "#9000ff", fg: "#3c3e3f" };
 }
 
 function calculateSubPatterns(pattern, maxSymbolsRemoved) {
@@ -126,23 +129,6 @@ function calculateSubPatterns(pattern, maxSymbolsRemoved) {
 	});
 
 	return subPatterns;
-}
-
-function choose(n, k) {
-	// n choose k binomial coefficient implementation
-	// Could be memoized for now this is fine
-
-	if (k > n / 2) k = n - k;
-
-	let res = 1;
-	for (let i = 1; i <= k; i++) {
-		res *= (n - i + 1) / i;
-	}
-
-	return res;
-
-	// Alternatively if we had BigNumber version of factorial could do this
-	//return factorial(n)/(factorial(k)*factorial(n - k));
 }
 
 function calculateIsomorphs(messages, alphabetSize, maxLength) {
@@ -248,6 +234,8 @@ function calculateIsomorphs(messages, alphabetSize, maxLength) {
 	return isomorphs;
 }
 
+// -------------------- Page --------------------
+
 class MessageView {
 	constructor() {
 		this.messagesViewElement = document.getElementById("messages-view");
@@ -293,14 +281,14 @@ class MessageView {
 				message
 					.split("")
 					.filter((letter) => letter.length > 0)
-					.map((letter) => letter.charCodeAt(0) - 32)
+					.map((letter) => letter.charCodeAt(0) - 32),
 			);
 		} else {
 			this.messagesParsed = lines.map((message) =>
 				message
 					.split(",")
 					.filter((letter) => letter.length > 0)
-					.map((letter) => parseInt(letter))
+					.map((letter) => parseInt(letter)),
 			);
 		}
 		this.messagesParsed = this.messagesParsed.filter((message) => message.length > 0);
@@ -610,7 +598,7 @@ class IsomorphView {
 			this.isomorphListElement.innerHTML = "<div class='empty'>No isomorphs...</div>";
 		} else {
 			this.sortedIsomorphs = Object.keys(this.isomorphCalculator.isomorphs).sort(
-				(a, b) => this.isomorphCalculator.isomorphs[b].score - this.isomorphCalculator.isomorphs[a].score
+				(a, b) => this.isomorphCalculator.isomorphs[b].score - this.isomorphCalculator.isomorphs[a].score,
 			);
 
 			this.isomorphListElement.innerHTML = "";
@@ -801,6 +789,8 @@ class IsomorphView {
 		}
 	}
 }
+
+// -------------------- Driver --------------------
 
 const messageView = new MessageView();
 const isomorphCalculator = new IsomorphCalculator(messageView);
