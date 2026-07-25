@@ -1,3 +1,5 @@
-# isomorph-viewer
+# Isomorph Viewer
 
-https://tomster12.github.io/isomorph-viewer/
+Small site to view the isomorphs in the Noita eye messages.
+
+- https://noita.wiki.gg/wiki/Eye_Messages
