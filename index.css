@@ -216,6 +216,19 @@ body {
 	outline: 0.1rem solid red;
 }
 
+.main-message div.outlined {
+	border: 2px solid white;
+	line-height: calc(var(--message-letter-height) - 4px);
+}
+
+#messages-list.clickable-letters .main-message div {
+	cursor: pointer;
+}
+
+#messages-list.clickable-letters .main-message div:hover {
+	filter: brightness(1.1);
+}
+
 #messages-input {
 	display: block;
 	width: 100%;
@@ -245,7 +258,7 @@ body {
 
 /* ------------------------------------------- */
 
-#isomorph-calculator {
+.isomorph-calculator-panel {
 	border-radius: var(--standard-border-radius);
 	background-color: var(--col-panel-bg);
 	width: 16rem;
@@ -257,7 +270,7 @@ body {
 	padding: var(--standard-padding);
 }
 
-#isomorph-calculator-generate-button {
+.isomorph-calculator-button {
 	border-radius: var(--standard-border-radius);
 	text-align: center;
 	background-color: var(--col-button);
@@ -270,16 +283,16 @@ body {
 	cursor: pointer;
 }
 
-#isomorph-calculator-generate-button:hover {
+.isomorph-calculator-button:hover {
 	background-color: var(--col-button-hovered);
 }
 
-#isomorph-calculator-generate-button .label {
+.isomorph-calculator-button .label {
 	color: black;
 	padding: 0 0.4rem;
 }
 
-#isomorph-calculator-generate-button .spinner {
+.isomorph-calculator-button .spinner {
 	width: 1.2rem;
 	height: 1.2rem;
 	border-radius: 50%;
@@ -350,6 +363,20 @@ body {
 	border-radius: var(--standard-border-radius);
 }
 
+.inspector-info-row {
+	padding: 0 1rem;
+	min-height: 1rem;
+	display: flex;
+	flex-direction: row;
+	gap: 2rem;
+	overflow: hidden;
+}
+
+.inspector-info-row div {
+	color: #c3c3c3;
+	text-wrap: nowrap;
+}
+
 #isomorph-selection-pattern {
 	min-height: 1.6rem;
 	width: fit-content;
@@ -417,7 +444,7 @@ body {
 
 /* ------------------------------------------- */
 
-#isomorphs-view {
+.list-panel {
 	border-radius: var(--standard-border-radius);
 	display: flex;
 	flex-direction: column;
@@ -427,7 +454,7 @@ body {
 	background-color: var(--col-panel-bg);
 }
 
-#isomorphs-info {
+.list-panel-info {
 	padding: 0 1rem;
 	min-height: 1rem;
 	display: flex;
@@ -437,12 +464,12 @@ body {
 	flex-wrap: wrap;
 }
 
-#isomorphs-info div {
+.list-panel-info div {
 	color: #c3c3c3;
 	text-wrap: nowrap;
 }
 
-#isomorphs-list {
+.list-panel-list {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
@@ -457,7 +484,7 @@ body {
 	overflow-y: auto;
 }
 
-#isomorphs-list .empty {
+.list-panel-list .empty {
 	color: var(--col-generic-text-dark);
 	text-align: center;
 	flex-shrink: 0;

@@ -27,6 +27,14 @@
 							<img src="assets/alphabet.png" />
 						</div>
 					</div>
+
+					<div class="toolbar-option-label" style="margin-left: 2rem">Mode</div>
+					<div id="toggle-mode-isomorphs-button" class="toolbar-option active">
+						<div class="toolbar-option-label">Isomorphs</div>
+					</div>
+					<div id="toggle-mode-shared-pt-button" class="toolbar-option">
+						<div class="toolbar-option-label">Shared PT</div>
+					</div>
 				</div>
 
 				<div id="messages-container">
@@ -39,7 +47,7 @@
 			</div>
 
 			<div id="mid-container">
-				<div id="isomorph-calculator">
+				<div id="isomorph-calculator" class="isomorph-calculator-panel">
 					<div class="isomorph-calculator-option">
 						<div class="label">Max Length</div>
 						<input type="text" id="isomorph-calculator-input-max-length" value="30" />
@@ -53,6 +61,10 @@
 						<input type="checkbox" id="isomorph-calculator-input-shared-sections" />
 					</div>
 					<div class="isomorph-calculator-option">
+						<div class="label">Extend</div>
+						<input type="checkbox" id="isomorph-calculator-input-extend" />
+					</div>
+					<div class="isomorph-calculator-option">
 						<div class="label">Remove Overlaps</div>
 						<input type="checkbox" id="isomorph-calculator-input-remove-overlaps" />
 					</div>
@@ -64,23 +76,49 @@
 						<div class="label">Max Difference</div>
 						<input type="text" id="isomorph-calculator-input-sub-patterns-max-diff" value="2" />
 					</div>
-					<div id="isomorph-calculator-generate-button">
+					<div id="isomorph-calculator-generate-button" class="isomorph-calculator-button">
 						<div class="label" type="submit">Generate</div>
 					</div>
 				</div>
+
+				<div id="shared-pt-config" class="isomorph-calculator-panel" style="display: none">
+					<div class="isomorph-calculator-option">
+						<div class="label">Show Seperated</div>
+						<input type="checkbox" id="shared-pt-config-input-show-seperated" />
+					</div>
+					<div class="isomorph-calculator-option">
+						<div class="label">Merge Sequences</div>
+						<input type="checkbox" id="shared-pt-config-input-merge-sequences" />
+					</div>
+					<div id="shared-pt-config-select-all-button" class="isomorph-calculator-button">
+						<div class="label">Select All</div>
+					</div>
+					<div id="shared-pt-config-deselect-all-button" class="isomorph-calculator-button">
+						<div class="label">Deselect All</div>
+					</div>
+				</div>
+
 				<div id="isomorph-selection-view">
 					<div id="isomorph-selection-pattern-container">
 						<div id="isomorph-selection-pattern"></div>
 					</div>
+					<div id="isomorph-selection-stats" class="inspector-info-row" style="display: none"></div>
 					<div id="isomorph-selection-list">
 						<div class="empty">No isomorphs...</div>
 					</div>
 				</div>
 			</div>
 
-			<div id="isomorphs-view">
-				<div id="isomorphs-info"></div>
-				<div id="isomorphs-list">
+			<div id="isomorphs-view" class="list-panel">
+				<div id="isomorphs-info" class="list-panel-info"></div>
+				<div id="isomorphs-list" class="list-panel-list">
+					<div class="empty">No isomorphs...</div>
+				</div>
+			</div>
+
+			<div id="shared-pt-view" class="list-panel" style="display: none">
+				<div id="shared-pt-info" class="list-panel-info"></div>
+				<div id="shared-pt-list" class="list-panel-list">
 					<div class="empty">No isomorphs...</div>
 				</div>
 			</div>
